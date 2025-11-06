@@ -4,7 +4,7 @@ public class Offer {
 
     SpecialOfferType offerType;
     private final Product product;
-    double argument;
+    double argument; //TODO: c quoi cette merde ?
 
     public Offer(SpecialOfferType offerType, Product product, double argument) {
         this.offerType = offerType;

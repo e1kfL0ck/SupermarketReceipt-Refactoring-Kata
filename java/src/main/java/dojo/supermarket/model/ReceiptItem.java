@@ -36,6 +36,7 @@ public class ReceiptItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ReceiptItem)) return false;
+        //TODO: de meme c quoi cette merde ?
         ReceiptItem that = (ReceiptItem) o;
         return Double.compare(that.price, price) == 0 &&
                 Double.compare(that.totalPrice, totalPrice) == 0 &&

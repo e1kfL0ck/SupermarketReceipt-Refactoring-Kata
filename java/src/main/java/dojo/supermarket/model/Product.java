@@ -24,6 +24,7 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
+        //TODO: c quoi cette merde ?
         Product product = (Product) o;
         return Objects.equals(name, product.name) &&
                 unit == product.unit;

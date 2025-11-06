@@ -14,6 +14,7 @@ public class Receipt {
         for (ReceiptItem item : items) {
             total += item.getTotalPrice();
         }
+        //TODO: check commment s'apply les discounts
         for (Discount discount : discounts) {
             total += discount.getDiscountAmount();
         }
