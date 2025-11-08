@@ -206,4 +206,30 @@ class SupermarketTest {
         assertEquals(12.1, receiptItem.getTotalPrice());
         assertEquals(5, receiptItem.getQuantity());
     }
+
+    @Test
+    void fiveForAmountSixProduct() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        Product steak = new Product("Steak", ProductUnit.EACH);
+        catalog.addProduct(steak, 2.42);
+
+        Teller teller = new Teller(catalog);
+        teller.addSpecialOffer(SpecialOfferType.FIVE_FOR_AMOUNT, steak, 10);
+
+        ShoppingCart cart = new ShoppingCart();
+        cart.addItemQuantity(steak, 6);
+
+        // ACT
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+
+        // ASSERT
+        assertEquals(12.42, receipt.getTotalPrice());
+        assertEquals(1, receipt.getItems().size());
+
+        ReceiptItem receiptItem = receipt.getItems().get(0);
+        assertEquals(steak, receiptItem.getProduct());
+        assertEquals(2.42, receiptItem.getPrice());
+        assertEquals(14.52, receiptItem.getTotalPrice());
+        assertEquals(6, receiptItem.getQuantity());
+    }
 }
