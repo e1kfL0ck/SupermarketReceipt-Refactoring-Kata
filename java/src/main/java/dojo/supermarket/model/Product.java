@@ -6,10 +6,17 @@ public class Product {
 
     private final String name;
     private final ProductUnit unit;
+    private double price;
 
     public Product(String name, ProductUnit unit) {
         this.name = name;
         this.unit = unit;
+    }
+
+    public Product(String name, ProductUnit unit, Double price) {
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
     }
 
     public String getName() {
@@ -33,5 +40,9 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(name, unit);
+    }
+
+    public double getPrice() {
+        return price;
     }
 }
