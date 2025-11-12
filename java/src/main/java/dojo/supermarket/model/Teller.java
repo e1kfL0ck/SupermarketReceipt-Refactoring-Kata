@@ -29,7 +29,7 @@ public class Teller {
         for (ProductQuantity pq: productQuantities) {
             Product p = pq.getProduct();
             double quantity = pq.getQuantity();
-            double unitPrice = catalog.getUnitPrice(p);
+            double unitPrice = p.getPrice();
             double price = quantity * unitPrice;
             receipt.addProduct(p, quantity, unitPrice, price);
         }

@@ -39,7 +39,7 @@ public class ShoppingCart {
                 Discount discount = null;
                 Offer offer = productOfferMap.get(product);
 
-                double unitPrice = catalog.getUnitPrice(product);
+                double unitPrice = product.getPrice();
                 double quantity = productQuantities.get(product);
                 int quantityAsInt = (int) quantity;
                 int numberOfElementForDiscount;

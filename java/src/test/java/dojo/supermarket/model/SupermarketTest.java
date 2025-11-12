@@ -15,10 +15,8 @@ class SupermarketTest {
     @Test
     void tenPercentDiscountNoDiscount() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product toothbrush = new Product("toothbrush", ProductUnit.EACH);
-        catalog.addProduct(toothbrush, 0.99);
-        Product apples = new Product("apples", ProductUnit.KILO);
-        catalog.addProduct(apples, 1.99);
+        Product toothbrush = new Product("toothbrush", ProductUnit.EACH, 0.99);
+        Product apples = new Product("apples", ProductUnit.KILO, 1.99);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.TEN_PERCENT_DISCOUNT, toothbrush, 10.0);
@@ -44,10 +42,8 @@ class SupermarketTest {
     @Test
     void tenPercentDiscount() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product toothbrush = new Product("toothbrush", ProductUnit.EACH);
-        catalog.addProduct(toothbrush, 0.99);
-        Product apples = new Product("apples", ProductUnit.KILO);
-        catalog.addProduct(apples, 1.99);
+        Product toothbrush = new Product("toothbrush", ProductUnit.EACH, 0.99);
+        Product apples = new Product("apples", ProductUnit.KILO, 1.99);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.TEN_PERCENT_DISCOUNT, toothbrush, 10.0);
@@ -80,8 +76,7 @@ class SupermarketTest {
     @Test
     void threeForTwoDiscount() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product ps5 = new Product("PS5", ProductUnit.EACH);
-        catalog.addProduct(ps5, 200);
+        Product ps5 = new Product("PS5", ProductUnit.EACH, (double) 200);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5);
@@ -106,8 +101,7 @@ class SupermarketTest {
     @Test
     void threeForTwoDiscountFourProducts() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product ps5 = new Product("PS5", ProductUnit.EACH);
-        catalog.addProduct(ps5, 200);
+        Product ps5 = new Product("PS5", ProductUnit.EACH, (double) 200);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5);
@@ -132,8 +126,7 @@ class SupermarketTest {
     @Test
     void threeForTwoDiscountTimesTwo() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product ps5 = new Product("PS5", ProductUnit.EACH);
-        catalog.addProduct(ps5, 200);
+        Product ps5 = new Product("PS5", ProductUnit.EACH, (double)200);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5);
@@ -158,8 +151,7 @@ class SupermarketTest {
     @Test
     void twoForAmount() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product milk = new Product("Milk", ProductUnit.EACH);
-        catalog.addProduct(milk, 1.37);
+        Product milk = new Product("Milk", ProductUnit.EACH, 1.37);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.TWO_FOR_AMOUNT, milk, 2.37);
@@ -184,8 +176,7 @@ class SupermarketTest {
     @Test
     void twoForAmountThreeProduct() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product milk = new Product("Milk", ProductUnit.EACH);
-        catalog.addProduct(milk, 1.37);
+        Product milk = new Product("Milk", ProductUnit.EACH, 1.37);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.TWO_FOR_AMOUNT, milk, 2.37);
@@ -210,8 +201,7 @@ class SupermarketTest {
     @Test
     void twoForAmountTwoTime() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product milk = new Product("Milk", ProductUnit.EACH);
-        catalog.addProduct(milk, 1.37);
+        Product milk = new Product("Milk", ProductUnit.EACH, 1.37);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.TWO_FOR_AMOUNT, milk, 2.37);
@@ -236,8 +226,7 @@ class SupermarketTest {
     @Test
     void fiveForAmount() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product steak = new Product("Steak", ProductUnit.EACH);
-        catalog.addProduct(steak, 2.42);
+        Product steak = new Product("Steak", ProductUnit.EACH, 2.42);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.FIVE_FOR_AMOUNT, steak, 10);
@@ -262,8 +251,7 @@ class SupermarketTest {
     @Test
     void fiveForAmountSixProduct() {
         SupermarketCatalog catalog = new FakeCatalog();
-        Product steak = new Product("Steak", ProductUnit.EACH);
-        catalog.addProduct(steak, 2.42);
+        Product steak = new Product("Steak", ProductUnit.EACH, 2.42);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.FIVE_FOR_AMOUNT, steak, 10);
