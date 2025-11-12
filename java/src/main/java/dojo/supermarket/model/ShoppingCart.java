@@ -34,13 +34,15 @@ public class ShoppingCart {
 
     void handleOffers(Receipt receipt, Map<Product, Offer> productOfferMap, SupermarketCatalog catalog) {
         for (Product product: productQuantities().keySet()) {
-            double quantity = productQuantities.get(product);
             if (productOfferMap.containsKey(product)) {
-                Offer offer = productOfferMap.get(product);
-                double unitPrice = catalog.getUnitPrice(product);
-                int quantityAsInt = (int) quantity;
+
                 Discount discount = null;
-                int numberOfElementForDiscount = 1;
+                Offer offer = productOfferMap.get(product);
+
+                double unitPrice = catalog.getUnitPrice(product);
+                double quantity = productQuantities.get(product);
+                int quantityAsInt = (int) quantity;
+                int numberOfElementForDiscount;
 
                 switch (offer.offerType) {
                     case TWO_FOR_AMOUNT:
@@ -68,7 +70,8 @@ public class ShoppingCart {
                         }
                         break;
                     case TEN_PERCENT_DISCOUNT:
-                        discount = new Discount(product, offer.argument + "% off", -quantity * unitPrice * offer.argument / 100.0);
+                        double discountAmount = -quantity * unitPrice * offer.argument / 100.0;
+                        discount = new Discount(product, offer.argument + "% off", discountAmount);
                 }
 
                 if (discount != null)
