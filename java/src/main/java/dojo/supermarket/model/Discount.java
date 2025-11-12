@@ -1,13 +1,13 @@
 package dojo.supermarket.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Discount {
 
     private final String description;
     private final double discountAmount;
     private Product product;
-    private ArrayList<Product> products;
+    private List<Product> products;
 
     public Discount(Product product, String description, double discountAmount) {
         this.product = product;
@@ -15,7 +15,7 @@ public class Discount {
         this.discountAmount = discountAmount;
     }
 
-    public Discount(ArrayList<Product> products, String description, double discountAmount) {
+    public Discount(List<Product> products, String description, double discountAmount) {
         this.products = products;
         this.description = description;
         this.discountAmount = discountAmount;

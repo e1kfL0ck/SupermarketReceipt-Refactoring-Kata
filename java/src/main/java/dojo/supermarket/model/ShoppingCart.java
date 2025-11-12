@@ -96,6 +96,7 @@ public class ShoppingCart {
             double totalPrice = calculateTotalPrice(bundleProducts);
             double discountAmount = totalPrice - totalPriceBundle*(10-numberOfDiscountUsage);
             Discount discount = new Discount(bundleProducts, "10% off bundle", discountAmount);
+            receipt.addDiscount(discount);
         }
 
     }
