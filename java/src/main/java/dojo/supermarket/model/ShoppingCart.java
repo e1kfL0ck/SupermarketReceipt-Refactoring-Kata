@@ -49,16 +49,16 @@ public class ShoppingCart {
                         if (quantityAsInt >= 2) {
                             numberOfElementForDiscount = 2;
                             int numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
-                            double discountAmount = unitPrice * quantity - (offer.argument * numberOfPromotionUsage + quantityAsInt % 2 * unitPrice); //total value of the discount
-                            discount = new Discount(product, "2 for " + offer.argument, -discountAmount);
+                            double discountAmount = unitPrice * quantity - (offer.discountPercentageAmount * numberOfPromotionUsage + quantityAsInt % 2 * unitPrice); //total value of the discount
+                            discount = new Discount(product, "2 for " + offer.discountPercentageAmount, -discountAmount);
                         }
                         break;
                     case FIVE_FOR_AMOUNT:
                         if (quantityAsInt >= 5) {
                             numberOfElementForDiscount = 5;
                             int numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
-                            double discountAmount = unitPrice * quantity - (offer.argument * numberOfPromotionUsage + quantityAsInt % 5 * unitPrice);
-                            discount = new Discount(product, "5 for " + offer.argument, -discountAmount);
+                            double discountAmount = unitPrice * quantity - (offer.discountPercentageAmount * numberOfPromotionUsage + quantityAsInt % 5 * unitPrice);
+                            discount = new Discount(product, "5 for " + offer.discountPercentageAmount, -discountAmount);
                         }
                         break;
                     case THREE_FOR_TWO:
@@ -70,8 +70,8 @@ public class ShoppingCart {
                         }
                         break;
                     case TEN_PERCENT_DISCOUNT:
-                        double discountAmount = -quantity * unitPrice * offer.argument / 100.0;
-                        discount = new Discount(product, offer.argument + "% off", discountAmount);
+                        double discountAmount = -quantity * unitPrice * offer.discountPercentageAmount / 100.0;
+                        discount = new Discount(product, offer.discountPercentageAmount + "% off", discountAmount);
                         break;
                 }
 
