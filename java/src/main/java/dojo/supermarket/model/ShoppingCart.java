@@ -72,6 +72,7 @@ public class ShoppingCart {
                     case TEN_PERCENT_DISCOUNT:
                         double discountAmount = -quantity * unitPrice * offer.argument / 100.0;
                         discount = new Discount(product, offer.argument + "% off", discountAmount);
+                        break;
                 }
 
                 if (discount != null)
@@ -79,4 +80,5 @@ public class ShoppingCart {
             }
         }
     }
+
 }

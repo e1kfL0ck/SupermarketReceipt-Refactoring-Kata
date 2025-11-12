@@ -1,5 +1,6 @@
 package dojo.supermarket.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ public class Teller {
 
     private final SupermarketCatalog catalog;
     private final Map<Product, Offer> productOfferMap = new HashMap<>();
+    private ArrayList<Product> test;
 
     public Teller(SupermarketCatalog catalog) {
         this.catalog = catalog;
