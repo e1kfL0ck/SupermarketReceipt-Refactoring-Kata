@@ -84,7 +84,7 @@ class SupermarketTest {
         catalog.addProduct(ps5, 200);
 
         Teller teller = new Teller(catalog);
-        teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5, 500);
+        teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5);
 
         ShoppingCart cart = new ShoppingCart();
         cart.addItemQuantity(ps5, 3);
@@ -104,13 +104,13 @@ class SupermarketTest {
     }
 
     @Test
-    void threeForTwoDiscountForProducts() {
+    void threeForTwoDiscountFourProducts() {
         SupermarketCatalog catalog = new FakeCatalog();
         Product ps5 = new Product("PS5", ProductUnit.EACH);
         catalog.addProduct(ps5, 200);
 
         Teller teller = new Teller(catalog);
-        teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5, 500);
+        teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5);
 
         ShoppingCart cart = new ShoppingCart();
         cart.addItemQuantity(ps5, 4);
@@ -127,6 +127,32 @@ class SupermarketTest {
         assertEquals(200, receiptItem.getPrice());
         assertEquals(800, receiptItem.getTotalPrice());
         assertEquals(4, receiptItem.getQuantity());
+    }
+
+    @Test
+    void threeForTwoDiscountTimesTwo() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        Product ps5 = new Product("PS5", ProductUnit.EACH);
+        catalog.addProduct(ps5, 200);
+
+        Teller teller = new Teller(catalog);
+        teller.addSpecialOffer(SpecialOfferType.THREE_FOR_TWO, ps5);
+
+        ShoppingCart cart = new ShoppingCart();
+        cart.addItemQuantity(ps5, 7);
+
+        // ACT
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+
+        // ASSERT
+        assertEquals(1000, receipt.getTotalPrice(), 0.01);
+        assertEquals(1, receipt.getItems().size());
+
+        ReceiptItem receiptItem = receipt.getItems().get(0);
+        assertEquals(ps5, receiptItem.getProduct());
+        assertEquals(200, receiptItem.getPrice());
+        assertEquals(1400, receiptItem.getTotalPrice());
+        assertEquals(7, receiptItem.getQuantity());
     }
 
     @Test

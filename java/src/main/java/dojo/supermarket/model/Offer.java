@@ -12,6 +12,11 @@ public class Offer {
         this.product = product;
     }
 
+    public Offer(SpecialOfferType offerType, Product product) {
+        this.offerType = offerType;
+        this.product = product;
+    }
+
     Product getProduct() {
         return product;
     }
