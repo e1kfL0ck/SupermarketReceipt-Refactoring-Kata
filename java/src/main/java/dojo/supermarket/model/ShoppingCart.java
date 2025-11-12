@@ -33,7 +33,7 @@ public class ShoppingCart {
     }
 
     void handleOffers(Receipt receipt, Map<Product, Offer> productOfferMap, SupermarketCatalog catalog) {
-        for (Product product: productQuantities().keySet()) {
+        for (Product product : productQuantities().keySet()) {
             if (productOfferMap.containsKey(product)) {
 
                 Discount discount = null;
@@ -62,10 +62,10 @@ public class ShoppingCart {
                         }
                         break;
                     case THREE_FOR_TWO:
-                        if (quantityAsInt >=3 ) {
-                            numberOfElementForDiscount=3;
+                        if (quantityAsInt >= 3) {
+                            numberOfElementForDiscount = 3;
                             int numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
-                            double discountAmount = quantity * unitPrice - ((numberOfPromotionUsage  * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
+                            double discountAmount = quantity * unitPrice - ((numberOfPromotionUsage * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
                             discount = new Discount(product, "3 for 2", -discountAmount);
                         }
                         break;
@@ -81,4 +81,65 @@ public class ShoppingCart {
         }
     }
 
+    void handleBundles(Receipt receipt, ArrayList<BundleOffer> bundleOffers, SupermarketCatalog catalog) {
+
+        ArrayList<Product> bundleProducts = null;
+
+        for (BundleOffer bundleOffer : bundleOffers) {
+            bundleProducts = bundleOffer.getProducts();
+        }
+
+        if (findProdcuts(bundleProducts)) {
+
+            double numberOfDiscountUsage = findMin(bundleProducts);
+            double totalPriceBundle = calculateTotalPriceBundle(bundleProducts);
+            double totalPrice = calculateTotalPrice(bundleProducts);
+            double discountAmount = totalPrice - totalPriceBundle*(10-numberOfDiscountUsage);
+            Discount discount = new Discount(bundleProducts, "10% off bundle", discountAmount);
+        }
+
+    }
+
+    boolean findProdcuts(ArrayList<Product> bundleProducts) {
+        int bundleSize = bundleProducts.size();
+        int i = 0;
+        for (Product p : bundleProducts) {
+            if (p != null && productQuantities.containsKey(p)) {
+                i++;
+            }
+        }
+
+        if (i == bundleSize) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    double findMin(ArrayList<Product> bundleProducts) {
+        double min = Double.MAX_VALUE;
+        for (Product p : bundleProducts) {
+            if (p.getPrice() < min) {
+                min = p.getPrice();
+            }
+        }
+        return min;
+    }
+
+    double calculateTotalPriceBundle(ArrayList<Product> bundleProducts) {
+        double totalPrice = 0;
+        for (Product p : bundleProducts) {
+            totalPrice += p.getPrice();
+        }
+        return totalPrice;
+    }
+
+    double calculateTotalPrice(ArrayList<Product> bundleProducts) {
+        double totalPrice = 0;
+        for (Product product : bundleProducts) {
+            totalPrice += productQuantities.get(product) * product.getPrice();
+        }
+        return totalPrice;
+    }
 }
+
