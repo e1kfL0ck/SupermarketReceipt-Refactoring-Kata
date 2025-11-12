@@ -10,4 +10,8 @@ public class BundleOffer extends DefaultOffer{
         super(offerType);
         this.products = products;
     }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
 }
