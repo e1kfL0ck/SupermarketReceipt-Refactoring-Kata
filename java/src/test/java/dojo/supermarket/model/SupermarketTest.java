@@ -208,6 +208,32 @@ class SupermarketTest {
     }
 
     @Test
+    void twoForAmountTwoTime() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        Product milk = new Product("Milk", ProductUnit.EACH);
+        catalog.addProduct(milk, 1.37);
+
+        Teller teller = new Teller(catalog);
+        teller.addSpecialOffer(SpecialOfferType.TWO_FOR_AMOUNT, milk, 2.37);
+
+        ShoppingCart cart = new ShoppingCart();
+        cart.addItemQuantity(milk, 4);
+
+        // ACT
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+
+        // ASSERT
+        assertEquals(4.74, receipt.getTotalPrice());
+        assertEquals(1, receipt.getItems().size());
+
+        ReceiptItem receiptItem = receipt.getItems().get(0);
+        assertEquals(milk, receiptItem.getProduct());
+        assertEquals(1.37, receiptItem.getPrice());
+        assertEquals(5.48, receiptItem.getTotalPrice());
+        assertEquals(4, receiptItem.getQuantity());
+    }
+
+    @Test
     void fiveForAmount() {
         SupermarketCatalog catalog = new FakeCatalog();
         Product steak = new Product("Steak", ProductUnit.EACH);
