@@ -81,7 +81,7 @@ public class ShoppingCart {
         }
     }
 
-    void handleBundles(Receipt receipt, ArrayList<BundleOffer> bundleOffers, SupermarketCatalog catalog) {
+    void handleBundles(Receipt receipt, ArrayList<BundleOffer> bundleOffers) {
 
         ArrayList<Product> bundleProducts = null;
 
@@ -91,11 +91,11 @@ public class ShoppingCart {
 
         if (findProdcuts(bundleProducts)) {
 
-            double numberOfDiscountUsage = findMin(bundleProducts);
+            double numberOfDiscountUsage = findMinQuantity(bundleProducts);
             double totalPriceBundle = calculateTotalPriceBundle(bundleProducts);
             double totalPrice = calculateTotalPrice(bundleProducts);
-            double discountAmount = totalPrice - totalPriceBundle*(10-numberOfDiscountUsage);
-            Discount discount = new Discount(bundleProducts, "10% off bundle", discountAmount);
+            double discountAmount = totalPrice - totalPriceBundle*0.9*numberOfDiscountUsage;
+            Discount discount = new Discount(bundleProducts, "10% off bundle", -discountAmount);
             receipt.addDiscount(discount);
         }
 
@@ -117,11 +117,11 @@ public class ShoppingCart {
         }
     }
 
-    double findMin(ArrayList<Product> bundleProducts) {
+    double findMinQuantity(ArrayList<Product> bundleProducts) {
         double min = Double.MAX_VALUE;
         for (Product p : bundleProducts) {
-            if (p.getPrice() < min) {
-                min = p.getPrice();
+            if (productQuantities.get(p) < min) {
+                min = productQuantities.get(p);
             }
         }
         return min;
