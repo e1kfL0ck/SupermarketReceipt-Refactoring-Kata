@@ -35,4 +35,8 @@ public class Receipt {
     public List<Discount> getDiscounts() {
         return discounts;
     }
+
+    public double getTotalPrice(List<ReceiptItem> receiptItems) {
+
+    }
 }

@@ -5,7 +5,7 @@ import java.util.Objects;
 public class ReceiptItem {
 
     private final Product product;
-    private final double price;
+    private double price;
     private final double totalPrice;
     private final double quantity;
 
@@ -16,8 +16,14 @@ public class ReceiptItem {
         this.totalPrice = totalPrice;
     }
 
+    ReceiptItem(Product p, double quantity) {
+        product = p;
+        this.quantity = quantity;
+        totalPrice = p.getPrice() * quantity;
+    }
+
     public double getPrice() {
-        return price;
+        return product.getPrice();
     }
 
     public Product getProduct() {
