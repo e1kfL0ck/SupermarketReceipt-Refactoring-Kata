@@ -138,7 +138,12 @@ public class ShoppingCart {
                         numberOfPromotionUsage = quantityAsInt / 3;
                         discountAmount = item.getTotalPrice() - (numberOfPromotionUsage * 2 * item.getPrice() + quantityAsInt % 3 * item.getPrice());
                         discount = new Discount(item.getProduct(), "3 for 2", discountAmount);
+                        break;
                     }
+                case TEN_PERCENT_DISCOUNT:
+                    discountAmount = item.getQuantity() * item.getPrice() * offer.getDiscountPercentageAmount() / 100.0;
+                    discount = new Discount(item.getProduct(), offer.getDiscountPercentageAmount() + "% off", discountAmount);
+                    break;
             }
 
             if (discount != null) receipt.addDiscount(discount);
