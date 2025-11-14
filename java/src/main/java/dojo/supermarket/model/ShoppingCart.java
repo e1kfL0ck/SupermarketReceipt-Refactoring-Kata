@@ -4,108 +4,17 @@ import java.util.*;
 
 public class ShoppingCart {
 
-    private final List<ProductQuantity> items = new ArrayList<>();
-    private final Map<Product, Double> productQuantities = new HashMap<>();
-
     private List<DefaultOffer> offerCatalog;
     private Receipt receipt = new Receipt();
     private List<ReceiptItem> receiptItems = new ArrayList<>();
-
-    ShoppingCart() {}
 
     ShoppingCart(List<DefaultOffer> offerCatalog) {
         this.offerCatalog = offerCatalog;
     }
 
-    List<ProductQuantity> getItems() {
-        return Collections.unmodifiableList(items);
-    }
-
-    Map<Product, Double> productQuantities() {
-        return Collections.unmodifiableMap(productQuantities);
-    }
-
-    public void addItemQuantity(Product product, double quantity) {
-        items.add(new ProductQuantity(product, quantity));
-        if (productQuantities.containsKey(product)) {
-            productQuantities.put(product, productQuantities.get(product) + quantity);
-        } else {
-            productQuantities.put(product, quantity);
-        }
-    }
-
     void addItemInCart(Product product, double quantity) {
         receiptItems.add(new ReceiptItem(product, quantity));
     }
-
-    void handleOffers(Receipt receipt, Map<Product, Offer> productOfferMap, SupermarketCatalog catalog) {
-        for (Product product : productQuantities().keySet()) {
-            if (productOfferMap.containsKey(product)) {
-
-                Discount discount = null;
-                Offer offer = productOfferMap.get(product);
-
-                double unitPrice = product.getPrice();
-                double quantity = productQuantities.get(product);
-                int quantityAsInt = (int) quantity;
-                int numberOfElementForDiscount;
-
-                switch (offer.getOfferType()) {
-                    case TWO_FOR_AMOUNT:
-                        if (quantityAsInt >= 2) {
-                            numberOfElementForDiscount = 2;
-                            int numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
-                            double discountAmount = unitPrice * quantity - (offer.getDiscountPercentageAmount() * numberOfPromotionUsage + quantityAsInt % 2 * unitPrice); //total value of the discount
-                            discount = new Discount(product, "2 for " + offer.getDiscountPercentageAmount(), -discountAmount);
-                        }
-                        break;
-                    case FIVE_FOR_AMOUNT:
-                        if (quantityAsInt >= 5) {
-                            numberOfElementForDiscount = 5;
-                            int numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
-                            double discountAmount = unitPrice * quantity - (offer.getDiscountPercentageAmount() * numberOfPromotionUsage + quantityAsInt % 5 * unitPrice);
-                            discount = new Discount(product, "5 for " + offer.getDiscountPercentageAmount(), -discountAmount);
-                        }
-                        break;
-                    case THREE_FOR_TWO:
-                        if (quantityAsInt >= 3) {
-                            numberOfElementForDiscount = 3;
-                            int numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
-                            double discountAmount = quantity * unitPrice - ((numberOfPromotionUsage * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
-                            discount = new Discount(product, "3 for 2", -discountAmount);
-                        }
-                        break;
-                    case TEN_PERCENT_DISCOUNT:
-                        double discountAmount = -quantity * unitPrice * offer.getDiscountPercentageAmount() / 100.0;
-                        discount = new Discount(product, offer.getDiscountPercentageAmount() + "% off", discountAmount);
-                        break;
-                }
-
-                if (discount != null)
-                    receipt.addDiscount(discount);
-            }
-        }
-    }
-
-//    void handleBundles(Receipt receipt, ArrayList<BundleOffer> bundleOffers) {
-//
-//        ArrayList<Product> bundleProducts = null;
-//
-//        for (BundleOffer bundleOffer : bundleOffers) {
-//            bundleProducts = bundleOffer.getProducts();
-//        }
-//
-//        if (findProdcuts(bundleProducts)) {
-//
-//            double numberOfDiscountUsage = findMinQuantity(bundleProducts);
-//            double totalPriceBundle = calculateTotalPriceBundle(bundleProducts);
-//            double totalPrice = calculateTotalPrice(bundleProducts);
-//            double discountAmount = totalPrice - totalPriceBundle*0.9*numberOfDiscountUsage;
-//            Discount discount = new Discount(bundleProducts, "10% off bundle", -discountAmount);
-//            receipt.addDiscount(discount);
-//        }
-//
-//    }
 
     void goToCheckout() {
         //TODO: where should the reciptItems should be ?
@@ -141,8 +50,22 @@ public class ShoppingCart {
                         break;
                     }
                 case TEN_PERCENT_DISCOUNT:
-                    discountAmount = item.getQuantity() * item.getPrice() * offer.getDiscountPercentageAmount() / 100.0;
-                    discount = new Discount(item.getProduct(), offer.getDiscountPercentageAmount() + "% off", discountAmount);
+                    discountAmount = item.getQuantity() * item.getPrice() * offer.getDiscountAmount() / 100.0;
+                    discount = new Discount(item.getProduct(), offer.getDiscountAmount() + "% off", discountAmount);
+                    break;
+                case TWO_FOR_AMOUNT:
+                    if (quantityAsInt >= 2) {
+                        numberOfPromotionUsage = quantityAsInt / 2;
+                        discountAmount = numberOfPromotionUsage*(item.getPrice()*2-offer.getDiscountAmount());
+                        discount = new Discount(item.getProduct(), "2 for " + offer.getDiscountAmount(), discountAmount);
+                    }
+                    break;
+                case FIVE_FOR_AMOUNT:
+                    if (quantityAsInt >= 5) {
+                        numberOfPromotionUsage = quantityAsInt / 5;
+                        discountAmount = numberOfPromotionUsage*(item.getPrice()*5-offer.getDiscountAmount());
+                        discount = new Discount(item.getProduct(), "5 for " + offer.getDiscountAmount(), discountAmount);
+                    }
                     break;
             }
 
@@ -156,7 +79,7 @@ public class ShoppingCart {
 
             int numberOfPromotionUsage = minQuantity(offer.getProducts());
             double totalPriceBundle = calculateTotalPriceBundle(offer.getProducts());
-            double discountAmount = totalPriceBundle*offer.getDiscountPercentageAmount()/100*numberOfPromotionUsage;
+            double discountAmount = totalPriceBundle*offer.getDiscountAmount()/100*numberOfPromotionUsage;
             Discount discount = new Discount(offer.getProducts(), "10% off bundle", discountAmount);
             receipt.addDiscount(discount);
         }
