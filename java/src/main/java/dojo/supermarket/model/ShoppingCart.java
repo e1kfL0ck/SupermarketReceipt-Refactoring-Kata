@@ -130,14 +130,12 @@ public class ShoppingCart {
             Discount discount = null;
             int quantityAsInt = (int) item.getQuantity();
             double discountAmount = 0;
-            double numberOfElementForDiscount = 0;
-            double numberOfPromotionUsage = 0;
+            int numberOfPromotionUsage = 0;
 
             switch (offer.getOfferType()) {
                 case THREE_FOR_TWO:
                     if (quantityAsInt >= 3) {
-                        numberOfElementForDiscount = 3;
-                        numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
+                        numberOfPromotionUsage = quantityAsInt / 3;
                         discountAmount = item.getTotalPrice() - (numberOfPromotionUsage * 2 * item.getPrice() + quantityAsInt % 3 * item.getPrice());
                         discount = new Discount(item.getProduct(), "3 for 2", discountAmount);
                     }
