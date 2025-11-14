@@ -27,7 +27,7 @@ public class ShoppingCart {
             if (offer.getOfferType() != SpecialOfferType.BUNDLE) {
                 handleSingleOffers(offer);
             } else {
-                handleBundles2(offer);
+                handleBundles(offer);
             }
         }
     }
@@ -75,7 +75,7 @@ public class ShoppingCart {
         }
     }
 
-    void handleBundles2(DefaultOffer offer) {
+    void handleBundles(DefaultOffer offer) {
 
         if (findProducts(offer.getProducts())) {
 
@@ -126,17 +126,6 @@ public class ShoppingCart {
             bundleTotalPrice += p.getPrice();
         }
         return bundleTotalPrice;
-    }
-
-    double calculateTotalPrice(List<Product> products) {
-        double totalPrice = 0;
-        Set<Product> filter = new HashSet<>(products);
-        for (ReceiptItem item : receiptItems) {
-            if (filter.contains(item.getProduct())) {
-                totalPrice += item.getTotalPrice();
-            }
-        }
-        return totalPrice;
     }
 
     public Receipt getReceipt() {

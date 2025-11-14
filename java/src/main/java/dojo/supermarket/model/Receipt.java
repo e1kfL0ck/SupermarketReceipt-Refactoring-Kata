@@ -1,7 +1,6 @@
 package dojo.supermarket.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Receipt {
@@ -26,7 +25,7 @@ public class Receipt {
         totalPriceAfterDiscount = totalPrice - totalDiscounts;
     }
 
-    public double getTotalPrice2() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 

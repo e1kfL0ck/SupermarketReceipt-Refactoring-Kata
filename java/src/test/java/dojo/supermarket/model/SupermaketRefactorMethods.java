@@ -91,7 +91,7 @@ class SupermaketRefactorMethods {
         assertEquals(21, receiptItem.getTotalPrice());
         assertEquals(3, receiptItem.getQuantity());
 
-        assertEquals(25, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(25, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(7.4, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(17.6, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -154,7 +154,7 @@ class SupermaketRefactorMethods {
 
         double expectedTotal = 2.5 * 1.99;
 
-        assertEquals(expectedTotal, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(expectedTotal, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(0.0, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(expectedTotal, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -188,7 +188,7 @@ class SupermaketRefactorMethods {
         double discount = toothbrushTotal * 0.10;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -225,7 +225,7 @@ class SupermaketRefactorMethods {
         double discount = 200.0;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -255,7 +255,7 @@ class SupermaketRefactorMethods {
         double discount = 200.0;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -285,7 +285,7 @@ class SupermaketRefactorMethods {
         double discount = 2 * 200.0; // two full 3-for-2 groups
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -315,7 +315,7 @@ class SupermaketRefactorMethods {
         double totalAfterDiscount = 2.37;
         double discount = totalBeforeDiscount - totalAfterDiscount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -345,7 +345,7 @@ class SupermaketRefactorMethods {
         double totalAfterDiscount = 3.74; // 2 for 2.37 + 1 * 1.37
         double discount = totalBeforeDiscount - totalAfterDiscount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -375,7 +375,7 @@ class SupermaketRefactorMethods {
         double totalAfterDiscount = 4.74; // 2 * (2 for 2.37)
         double discount = totalBeforeDiscount - totalAfterDiscount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -405,7 +405,7 @@ class SupermaketRefactorMethods {
         double totalAfterDiscount = 10.0;
         double discount = totalBeforeDiscount - totalAfterDiscount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
@@ -435,7 +435,7 @@ class SupermaketRefactorMethods {
         double totalAfterDiscount = 12.42; // 5 for 10 + 1 * 2.42
         double discount = totalBeforeDiscount - totalAfterDiscount;
 
-        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice2(), 0.01);
+        assertEquals(totalBeforeDiscount, cart.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, cart.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, cart.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 

@@ -8,10 +8,6 @@ public class Product {
     private final ProductUnit unit;
     private double price;
 
-    public Product(String name, ProductUnit unit) {
-        this.name = name;
-        this.unit = unit;
-    }
 
     public Product(String name, ProductUnit unit, Double price) {
         this.name = name;

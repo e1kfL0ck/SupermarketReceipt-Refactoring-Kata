@@ -5,7 +5,6 @@ import java.util.Objects;
 public class ReceiptItem {
 
     private final Product product;
-    private double price;
     private final double totalPrice;
     private final double quantity;
 
@@ -36,7 +35,7 @@ public class ReceiptItem {
         if (this == o) return true;
         if (!(o instanceof ReceiptItem)) return false;
         ReceiptItem that = (ReceiptItem) o;
-        return Double.compare(that.price, price) == 0 &&
+        return Double.compare(that.product.getPrice(), product.getPrice()) == 0 &&
                 Double.compare(that.totalPrice, totalPrice) == 0 &&
                 Double.compare(that.quantity, quantity) == 0 &&
                 Objects.equals(product, that.product);
@@ -44,6 +43,6 @@ public class ReceiptItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(product, price, totalPrice, quantity);
+        return Objects.hash(product, product.getPrice(), totalPrice, quantity);
     }
 }
