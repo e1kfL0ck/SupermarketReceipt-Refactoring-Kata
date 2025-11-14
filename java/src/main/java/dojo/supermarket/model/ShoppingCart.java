@@ -108,21 +108,43 @@ public class ShoppingCart {
 //    }
 
     void goToCheckout() {
+        //TODO: where should the reciptItems should be ?
         receipt.pay(receiptItems);
+        //receipt.show(receiptItems);
     }
 
     void handleAllOffers() {
         for (DefaultOffer offer : offerCatalog) {
-            if (offer.getProducts().size()==1) {
-                handleSingleOffers();
+            if (offer.getOfferType() != SpecialOfferType.BUNDLE) {
+                handleSingleOffers(offer);
             } else {
                 handleBundles2(offer);
             }
         }
     }
 
-    void handleSingleOffers() {
+    //TODO: ca ne va pas gerer si un produit est ajouté en 2 fois pour le moment
+    void handleSingleOffers(DefaultOffer offer) {
+        ReceiptItem item = findByProduct(offer.getProducts().get(0));
+        if(item != null) {
+            Discount discount = null;
+            int quantityAsInt = (int) item.getQuantity();
+            double discountAmount = 0;
+            double numberOfElementForDiscount = 0;
+            double numberOfPromotionUsage = 0;
 
+            switch (offer.getOfferType()) {
+                case THREE_FOR_TWO:
+                    if (quantityAsInt >= 3) {
+                        numberOfElementForDiscount = 3;
+                        numberOfPromotionUsage = quantityAsInt / numberOfElementForDiscount;
+                        discountAmount = item.getTotalPrice() - (numberOfPromotionUsage * 2 * item.getPrice() + quantityAsInt % 3 * item.getPrice());
+                        discount = new Discount(item.getProduct(), "3 for 2", discountAmount);
+                    }
+            }
+
+            if (discount != null) receipt.addDiscount(discount);
+        }
     }
 
     void handleBundles2(DefaultOffer offer) {
@@ -132,14 +154,13 @@ public class ShoppingCart {
             int numberOfPromotionUsage = minQuantity(offer.getProducts());
             double totalPriceBundle = calculateTotalPriceBundle(offer.getProducts());
             double totalPrice = calculateTotalPrice(offer.getProducts());
-            double discountAmount = totalPrice - totalPriceBundle*(100-offer.getDiscountPercentageAmount())/100*numberOfPromotionUsage;
-            Discount discount = new Discount(offer.getProducts(), "10% off bundle", -discountAmount);
+            double discountAmount = totalPriceBundle*offer.getDiscountPercentageAmount()/100*numberOfPromotionUsage;
+            Discount discount = new Discount(offer.getProducts(), "10% off bundle", discountAmount);
             receipt.addDiscount(discount);
         }
     }
 
     boolean findProducts(List<Product> bundleProducts) {
-        int quantity = 0;
         Set<Product> remaining = new HashSet<>(bundleProducts);
         if (remaining.isEmpty()) return true;
         for (ReceiptItem item : receiptItems) {
@@ -147,6 +168,13 @@ public class ShoppingCart {
             if (remaining.isEmpty()) return true;
         }
         return false;
+    }
+
+    ReceiptItem findByProduct(Product product) {
+        for (ReceiptItem i : receiptItems) {
+            if(i.getProduct().equals(product)) return i;
+        }
+        return null;
     }
 
     int minQuantity(List<Product> products) {
@@ -186,6 +214,10 @@ public class ShoppingCart {
 
     public Receipt getReceipt() {
         return receipt;
+    }
+
+    public List<ReceiptItem> getReceiptItems() {
+        return receiptItems;
     }
 }
 

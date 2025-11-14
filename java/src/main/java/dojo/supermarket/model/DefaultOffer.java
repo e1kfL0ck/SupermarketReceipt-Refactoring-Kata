@@ -19,6 +19,12 @@ public class DefaultOffer {
         this.products = products;
     }
 
+    DefaultOffer(SpecialOfferType offerType, List<Product> products) {
+        this.offerType = offerType;
+        this.discountPercentageAmount = discountPercentageAmount;
+        this.products = products;
+    }
+
     DefaultOffer(SpecialOfferType offerType) {
         this.offerType = offerType;
     }

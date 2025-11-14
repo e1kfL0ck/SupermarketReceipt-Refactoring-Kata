@@ -7,7 +7,11 @@ import java.util.List;
 public class Receipt {
 
     private final List<ReceiptItem> items = new ArrayList<>();
-    private final List<Discount> discounts = new ArrayList<>();
+    private List<Discount> discounts = new ArrayList<>();
+
+    private double totalPrice = 0;
+    private double totalDiscounts = 0;
+    private double totalPriceAfterDiscount = 0;
 
     public double getTotalPrice() {
         double total = 0.0;
@@ -36,7 +40,26 @@ public class Receipt {
         return discounts;
     }
 
-    public double getTotalPrice(List<ReceiptItem> receiptItems) {
+    public void pay(List<ReceiptItem> receiptItems) {
+        for (ReceiptItem item : receiptItems) {
+            totalPrice += item.getTotalPrice();
+        }
+        for (Discount discount : discounts) {
+            totalDiscounts += discount.getDiscountAmount();
+        }
 
+        totalPriceAfterDiscount = totalPrice - totalDiscounts;
+    }
+
+    public double getTotalPrice2() {
+        return totalPrice;
+    }
+
+    public double getTotalDiscounts() {
+        return totalDiscounts;
+    }
+
+    public double getTotalPriceAfterDiscount() {
+        return totalPriceAfterDiscount;
     }
 }
