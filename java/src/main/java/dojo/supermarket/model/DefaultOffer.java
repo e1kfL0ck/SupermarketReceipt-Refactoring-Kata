@@ -1,6 +1,5 @@
 package dojo.supermarket.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultOffer {
@@ -14,12 +13,6 @@ public class DefaultOffer {
     }
 
     DefaultOffer(SpecialOfferType offerType, double discountPercentageAmount, List<Product> products) {
-        this.offerType = offerType;
-        this.discountPercentageAmount = discountPercentageAmount;
-        this.products = products;
-    }
-
-    DefaultOffer(SpecialOfferType offerType, List<Product> products) {
         this.offerType = offerType;
         this.discountPercentageAmount = discountPercentageAmount;
         this.products = products;

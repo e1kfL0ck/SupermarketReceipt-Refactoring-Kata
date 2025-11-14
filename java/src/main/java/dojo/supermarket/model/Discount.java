@@ -21,15 +21,8 @@ public class Discount {
         this.discountAmount = discountAmount;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public double getDiscountAmount() {
         return discountAmount;
     }
 
-    public Product getProduct() {
-        return product;
-    }
 }

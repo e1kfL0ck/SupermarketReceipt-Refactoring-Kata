@@ -153,7 +153,6 @@ public class ShoppingCart {
 
             int numberOfPromotionUsage = minQuantity(offer.getProducts());
             double totalPriceBundle = calculateTotalPriceBundle(offer.getProducts());
-            double totalPrice = calculateTotalPrice(offer.getProducts());
             double discountAmount = totalPriceBundle*offer.getDiscountPercentageAmount()/100*numberOfPromotionUsage;
             Discount discount = new Discount(offer.getProducts(), "10% off bundle", discountAmount);
             receipt.addDiscount(discount);

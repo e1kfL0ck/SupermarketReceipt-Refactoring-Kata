@@ -9,7 +9,6 @@ public class Teller {
 
     private final SupermarketCatalog catalog;
     private final Map<Product, Offer> productOfferMap = new HashMap<>();
-    private ArrayList<Product> test;
 
     public Teller(SupermarketCatalog catalog) {
         this.catalog = catalog;
