@@ -9,13 +9,6 @@ public class ReceiptItem {
     private final double totalPrice;
     private final double quantity;
 
-    ReceiptItem(Product p, double quantity, double price, double totalPrice) {
-        this.product = p;
-        this.quantity = quantity;
-        this.price = price;
-        this.totalPrice = totalPrice;
-    }
-
     ReceiptItem(Product p, double quantity) {
         product = p;
         this.quantity = quantity;

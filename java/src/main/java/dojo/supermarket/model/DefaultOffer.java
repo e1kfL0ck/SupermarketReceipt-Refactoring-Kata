@@ -4,17 +4,17 @@ import java.util.List;
 
 public class DefaultOffer {
     private SpecialOfferType offerType;
-    private double discountPercentageAmount;
+    private double discountAmount;
     private List<Product> products;
 
-    DefaultOffer(SpecialOfferType offerType, double discountPercentageAmount) {
+    DefaultOffer(SpecialOfferType offerType, double discountAmount) {
         this.offerType = offerType;
-        this.discountPercentageAmount = discountPercentageAmount;
+        this.discountAmount = discountAmount;
     }
 
-    DefaultOffer(SpecialOfferType offerType, double discountPercentageAmount, List<Product> products) {
+    DefaultOffer(SpecialOfferType offerType, double discountAmount, List<Product> products) {
         this.offerType = offerType;
-        this.discountPercentageAmount = discountPercentageAmount;
+        this.discountAmount = discountAmount;
         this.products = products;
     }
 
@@ -26,8 +26,8 @@ public class DefaultOffer {
         return products;
     }
 
-    public double getDiscountPercentageAmount() {
-        return discountPercentageAmount;
+    public double getDiscountAmount() {
+        return discountAmount;
     }
 
     public SpecialOfferType getOfferType() {
