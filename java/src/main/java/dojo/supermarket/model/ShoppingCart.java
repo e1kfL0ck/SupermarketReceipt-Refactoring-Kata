@@ -135,5 +135,9 @@ public class ShoppingCart {
     public List<ReceiptItem> getReceiptItems() {
         return receiptItems;
     }
+
+    public List<DefaultOffer> getOfferCatalog() {
+        return offerCatalog;
+    }
 }
 
