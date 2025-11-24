@@ -24,4 +24,18 @@ public class DefaultOffer {
     public SpecialOfferType getOfferType() {
         return offerType;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder retour = new StringBuilder();
+        retour.append(products.get(0).getName());
+
+        if (offerType == SpecialOfferType.BUNDLE) {
+            for(int i=0;i < products.size();i++) {
+                retour.append(", "+products.get(i+1));
+            }
+        }
+
+        return retour.toString();
+    }
 }
