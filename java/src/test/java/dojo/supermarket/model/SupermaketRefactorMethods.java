@@ -205,6 +205,9 @@ class SupermaketRefactorMethods {
         assertEquals(0.99, receiptItem.getPrice());
         assertEquals(toothbrushTotal, receiptItem.getTotalPrice(), 0.01);
         assertEquals(3, receiptItem.getQuantity(), 0.01);
+
+        String result = ReceiptDisplay.printReceipt(cart);
+        System.out.println(result);
     }
 
     @Test
