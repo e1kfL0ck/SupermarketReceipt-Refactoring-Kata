@@ -25,4 +25,15 @@ public class Discount {
         return discountAmount;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
 }
