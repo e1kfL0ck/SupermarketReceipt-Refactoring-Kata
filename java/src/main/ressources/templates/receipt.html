@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Supermarket Receipt</title>
+</head>
+<body>
+<h1>Supermarket Receipt</h1>
+
+<h2>Products</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Unit price</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.product.name}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+        <td th:text="${#numbers.formatDecimal(item.totalPrice, 1, 2)}"></td>
+    </tr>
+    </tbody>
+
+    <tbody>
+    <tr th:each="discount : ${discounts}">
+        <td th:text="${discount.description}"></td>
+        <td th:text="${#numbers.formatDecimal(discount.discountAmount, 1, 2)}"></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<h2>Summary</h2>
+<p>Total price: <span th:text="${#numbers.formatDecimal(receipt.totalPrice, 1, 2)}"></span></p>
+<p>Total discounts: <span th:text="${#numbers.formatDecimal(receipt.totalDiscounts, 1, 2)}"></span></p>
+<p>Total after discounts: <span th:text="${#numbers.formatDecimal(receipt.totalPriceAfterDiscount, 1, 2)}"></span></p>
+
+
+</body>
+</html>
