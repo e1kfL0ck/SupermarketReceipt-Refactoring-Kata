@@ -36,4 +36,8 @@ public class Receipt {
     public double getTotalPriceAfterDiscount() {
         return totalPriceAfterDiscount;
     }
+
+    public List<Discount> getDiscounts() {
+        return discounts;
+    }
 }
