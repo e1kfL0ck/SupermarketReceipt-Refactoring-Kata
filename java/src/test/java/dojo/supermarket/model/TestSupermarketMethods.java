@@ -208,6 +208,7 @@ class TestSupermarketMethods {
 
         String result = ReceiptDisplay.printReceipt(cart);
         System.out.println(result);
+        ReceiptDisplay.toHtml(cart);
     }
 
     @Test
