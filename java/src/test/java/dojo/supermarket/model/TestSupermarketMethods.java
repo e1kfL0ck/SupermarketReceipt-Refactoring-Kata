@@ -208,7 +208,7 @@ class TestSupermarketMethods {
 
         String result = ReceiptDisplay.printReceipt(cart);
         System.out.println(result);
-        ReceiptDisplay.toHtml(cart);
+        ReceiptDisplay.generateReceiptHTML(cart);
     }
 
     @Test

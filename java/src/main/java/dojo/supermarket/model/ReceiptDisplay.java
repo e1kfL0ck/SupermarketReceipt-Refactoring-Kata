@@ -1,8 +1,5 @@
 package dojo.supermarket.model;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class ReceiptDisplay {
 
     ReceiptDisplay(){}
@@ -37,7 +34,7 @@ public class ReceiptDisplay {
         return result.toString();
     }
 
-    public static void toHtml(ShoppingCart cart) {
+    public static void generateReceiptHTML(ShoppingCart cart) {
 
         StringBuilder html = new StringBuilder();
         html.append("<table border=\"1\" cellspacing=\"0\" cellpadding=\"4\">");
