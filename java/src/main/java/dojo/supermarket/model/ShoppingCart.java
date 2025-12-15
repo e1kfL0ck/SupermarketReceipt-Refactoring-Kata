@@ -19,7 +19,6 @@ public class ShoppingCart {
     void goToCheckout() {
         //TODO: where should the reciptItems should be ?
         receipt.pay(receiptItems);
-        //receipt.show(receiptItems);
     }
 
     void handleAllOffers() {
