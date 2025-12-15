@@ -4,11 +4,11 @@ import java.util.*;
 
 public class ShoppingCart {
 
-    private List<DefaultOffer> offerCatalog;
+    private List<Offer> offerCatalog;
     private Receipt receipt = new Receipt();
     private List<ReceiptItem> receiptItems = new ArrayList<>();
 
-    ShoppingCart(List<DefaultOffer> offerCatalog) {
+    ShoppingCart(List<Offer> offerCatalog) {
         this.offerCatalog = offerCatalog;
     }
 
@@ -23,7 +23,7 @@ public class ShoppingCart {
     }
 
     void handleAllOffers() {
-        for (DefaultOffer offer : offerCatalog) {
+        for (Offer offer : offerCatalog) {
             if (offer.getOfferType() != SpecialOfferType.BUNDLE) {
                 handleSingleOffers(offer);
             } else {
@@ -33,7 +33,7 @@ public class ShoppingCart {
     }
 
     //TODO: ca ne va pas gerer si un produit est ajouté en 2 fois pour le moment
-    void handleSingleOffers(DefaultOffer offer) {
+    void handleSingleOffers(Offer offer) {
         ReceiptItem item = findByProduct(offer.getProducts().get(0));
         if(item != null) {
             Discount discount = null;
@@ -75,7 +75,7 @@ public class ShoppingCart {
         }
     }
 
-    void handleBundles(DefaultOffer offer) {
+    void handleBundles(Offer offer) {
 
         if (findProducts(offer.getProducts())) {
 
@@ -136,7 +136,7 @@ public class ShoppingCart {
         return receiptItems;
     }
 
-    public List<DefaultOffer> getOfferCatalog() {
+    public List<Offer> getOfferCatalog() {
         return offerCatalog;
     }
 }

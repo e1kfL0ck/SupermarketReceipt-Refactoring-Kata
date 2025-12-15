@@ -15,12 +15,12 @@ class TestSupermarketMethods {
         Product apples = new Product("apples", ProductUnit.KILO, 1.5);
         Product toothbrush = new Product("toothbrush", ProductUnit.EACH, 0.5);
 
-        List<DefaultOffer> offers = new ArrayList<>();
+        List<Offer> offers = new ArrayList<>();
 
         ArrayList<Product> products = new ArrayList<>();
         products.add(apples);
         products.add(toothbrush);
-        offers.add(new DefaultOffer(SpecialOfferType.BUNDLE, 10, products));
+        offers.add(new Offer(SpecialOfferType.BUNDLE, 10, products));
 
         ShoppingCart cart = new ShoppingCart(offers);
         cart.addItemInCart(apples, 2);
@@ -55,13 +55,13 @@ class TestSupermarketMethods {
         Product toothbrush = new Product("toothbrush", ProductUnit.EACH, 0.5);
         Product computer = new Product("computer", ProductUnit.EACH, 7.0);
 
-        List<DefaultOffer> offers = new ArrayList<>();
+        List<Offer> offers = new ArrayList<>();
 
         ArrayList<Product> products = new ArrayList<>();
         products.add(apples);
         products.add(toothbrush);
-        offers.add(new DefaultOffer(SpecialOfferType.BUNDLE, 10, products));
-        offers.add(new DefaultOffer(SpecialOfferType.THREE_FOR_TWO, 0, new ArrayList<Product>(List.of(computer))));
+        offers.add(new Offer(SpecialOfferType.BUNDLE, 10, products));
+        offers.add(new Offer(SpecialOfferType.THREE_FOR_TWO, 0, new ArrayList<Product>(List.of(computer))));
 
         ShoppingCart cart = new ShoppingCart(offers);
         cart.addItemInCart(apples, 2);
@@ -102,12 +102,12 @@ class TestSupermarketMethods {
         Product tomatoes = new Product("tomatoes", ProductUnit.KILO, 1.5);
         Product carrots = new Product("carrots", ProductUnit.EACH, 2.20);
 
-        List<DefaultOffer> offers = new ArrayList<>();
+        List<Offer> offers = new ArrayList<>();
 
         ArrayList<Product> products = new ArrayList<>();
         products.add(tomatoes);
         products.add(carrots);
-        offers.add(new DefaultOffer(SpecialOfferType.BUNDLE, 10, products));
+        offers.add(new Offer(SpecialOfferType.BUNDLE, 10, products));
 
         ShoppingCart cart = new ShoppingCart(offers);
         cart.addItemInCart(tomatoes, 1.5);
@@ -142,8 +142,8 @@ class TestSupermarketMethods {
         Product toothbrush = new Product("toothbrush", ProductUnit.EACH, 0.99);
         Product apples = new Product("apples", ProductUnit.KILO, 1.99);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.TEN_PERCENT_DISCOUNT, 10.0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.TEN_PERCENT_DISCOUNT, 10.0,
                 new ArrayList<Product>(List.of(toothbrush))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -171,8 +171,8 @@ class TestSupermarketMethods {
         Product toothbrush = new Product("toothbrush", ProductUnit.EACH, 0.99);
         Product apples = new Product("apples", ProductUnit.KILO, 1.99);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.TEN_PERCENT_DISCOUNT, 10.0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.TEN_PERCENT_DISCOUNT, 10.0,
                 new ArrayList<Product>(List.of(toothbrush))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -215,8 +215,8 @@ class TestSupermarketMethods {
     void threeForTwoDiscount() {
         Product ps5 = new Product("PS5", ProductUnit.EACH, 200.0);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.THREE_FOR_TWO, 0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.THREE_FOR_TWO, 0,
                 new ArrayList<Product>(List.of(ps5))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -245,8 +245,8 @@ class TestSupermarketMethods {
     void threeForTwoDiscountFourProducts() {
         Product ps5 = new Product("PS5", ProductUnit.EACH, 200.0);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.THREE_FOR_TWO, 0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.THREE_FOR_TWO, 0,
                 new ArrayList<Product>(List.of(ps5))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -275,8 +275,8 @@ class TestSupermarketMethods {
     void threeForTwoDiscountTimesTwo() {
         Product ps5 = new Product("PS5", ProductUnit.EACH, 200.0);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.THREE_FOR_TWO, 0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.THREE_FOR_TWO, 0,
                 new ArrayList<Product>(List.of(ps5))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -305,8 +305,8 @@ class TestSupermarketMethods {
     void twoForAmount() {
         Product milk = new Product("Milk", ProductUnit.EACH, 1.37);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.TWO_FOR_AMOUNT, 2.37,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.TWO_FOR_AMOUNT, 2.37,
                 new ArrayList<Product>(List.of(milk))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -335,8 +335,8 @@ class TestSupermarketMethods {
     void twoForAmountThreeProduct() {
         Product milk = new Product("Milk", ProductUnit.EACH, 1.37);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.TWO_FOR_AMOUNT, 2.37,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.TWO_FOR_AMOUNT, 2.37,
                 new ArrayList<Product>(List.of(milk))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -365,8 +365,8 @@ class TestSupermarketMethods {
     void twoForAmountTwoTime() {
         Product milk = new Product("Milk", ProductUnit.EACH, 1.37);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.TWO_FOR_AMOUNT, 2.37,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.TWO_FOR_AMOUNT, 2.37,
                 new ArrayList<Product>(List.of(milk))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -395,8 +395,8 @@ class TestSupermarketMethods {
     void fiveForAmount() {
         Product steak = new Product("Steak", ProductUnit.EACH, 2.42);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.FIVE_FOR_AMOUNT, 10.0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.FIVE_FOR_AMOUNT, 10.0,
                 new ArrayList<Product>(List.of(steak))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -425,8 +425,8 @@ class TestSupermarketMethods {
     void fiveForAmountSixProduct() {
         Product steak = new Product("Steak", ProductUnit.EACH, 2.42);
 
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(SpecialOfferType.FIVE_FOR_AMOUNT, 10.0,
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(SpecialOfferType.FIVE_FOR_AMOUNT, 10.0,
                 new ArrayList<Product>(List.of(steak))));
 
         ShoppingCart cart = new ShoppingCart(offers);
@@ -462,18 +462,18 @@ class TestSupermarketMethods {
         //  - 10% bundle discount on 1kg apples + 1kg rice (kilo + kilo)
         //  - 2-for-amount on milk (2 for 2.0)
         //  - 10% discount on chocolate
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(
                 SpecialOfferType.BUNDLE,
                 10.0,
                 new ArrayList<>(List.of(apples, rice))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.TWO_FOR_AMOUNT,
                 2.0,
                 new ArrayList<>(List.of(milk))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.TEN_PERCENT_DISCOUNT,
                 10.0,
                 new ArrayList<>(List.of(chocolate))
@@ -554,18 +554,18 @@ class TestSupermarketMethods {
         //  - 10% bundle on (cheese kilo + ham each + bread each), applied per full set
         //  - 2-for-amount on wine (2 for 15)
         //  - 10% discount on grapes
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(
                 SpecialOfferType.BUNDLE,
                 10.0,
                 new ArrayList<>(List.of(cheese, ham, bread))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.TWO_FOR_AMOUNT,
                 15.0,
                 new ArrayList<>(List.of(wine))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.TEN_PERCENT_DISCOUNT,
                 10.0,
                 new ArrayList<>(List.of(grapes))
@@ -656,23 +656,23 @@ class TestSupermarketMethods {
         //  - 10% discount on cereal
         //  - 3-for-2 on soda
         //  - 5-for-amount on chips (5 for 8.0)
-        List<DefaultOffer> offers = new ArrayList<>();
-        offers.add(new DefaultOffer(
+        List<Offer> offers = new ArrayList<>();
+        offers.add(new Offer(
                 SpecialOfferType.BUNDLE,
                 10.0,
                 new ArrayList<>(List.of(bananas, apples))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.TEN_PERCENT_DISCOUNT,
                 10.0,
                 new ArrayList<>(List.of(cereal))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.THREE_FOR_TWO,
                 0,
                 new ArrayList<>(List.of(soda))
         ));
-        offers.add(new DefaultOffer(
+        offers.add(new Offer(
                 SpecialOfferType.FIVE_FOR_AMOUNT,
                 8.0,
                 new ArrayList<>(List.of(chips))

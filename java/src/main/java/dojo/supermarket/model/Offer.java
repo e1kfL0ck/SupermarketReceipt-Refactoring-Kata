@@ -3,12 +3,12 @@ package dojo.supermarket.model;
 import java.util.List;
 
 //TODO: merge discounts and offers ?
-public class DefaultOffer {
+public class Offer {
     private SpecialOfferType offerType;
     private double discountAmount;
     private List<Product> products;
 
-    DefaultOffer(SpecialOfferType offerType, double discountAmount, List<Product> products) {
+    Offer(SpecialOfferType offerType, double discountAmount, List<Product> products) {
         this.offerType = offerType;
         this.discountAmount = discountAmount;
         this.products = products;

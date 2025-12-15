@@ -22,7 +22,7 @@ public class ReceiptDisplay {
 
         result.append("Offer Type\nProducts - Amount\n\n");
 
-        for (DefaultOffer offer : cart.getOfferCatalog()) {
+        for (Offer offer : cart.getOfferCatalog()) {
             result.append(offer.getOfferType().toString() + "\n"
                     + offer.getProducts().toString() + " - " + offer.getDiscountAmount());
         }
