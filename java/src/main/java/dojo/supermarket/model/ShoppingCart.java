@@ -6,22 +6,20 @@ public class ShoppingCart {
 
     private List<Offer> offerCatalog;
     private Receipt receipt = new Receipt();
-    private Map<Product, ReceiptItem> receiptItems = new HashMap<>();
+    private Map<Product, ReceiptItem> receiptItems = new LinkedHashMap<>();
 
     ShoppingCart(List<Offer> offerCatalog) {
         this.offerCatalog = offerCatalog;
     }
 
     void addItemInCart(Product product, double quantity) {
-        ReceiptItem existing = receiptItems.get(product);
-        if (existing == null) {
-            receiptItems.put(product, new ReceiptItem(product, quantity));
-        } else {
-            double newQuantity = existing.getQuantity() + quantity;
-            //Put replace the new item,
-            receiptItems.put(product, new ReceiptItem(product, newQuantity));
-        }
+        receiptItems.merge(
+                product,
+                new ReceiptItem(product, quantity),
+                (existing, added) -> new ReceiptItem(product, existing.getQuantity() + added.getQuantity())
+        );
     }
+
 
     void goToCheckout() {
         //TODO: where should the reciptItems should be ?
