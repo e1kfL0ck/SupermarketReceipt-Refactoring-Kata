@@ -26,6 +26,10 @@ public class Offer {
         return offerType;
     }
 
+    public Product getFirstProduct() {
+        return products.get(0);
+    }
+
     @Override
     public String toString() {
         StringBuilder retour = new StringBuilder();
