@@ -1,7 +1,9 @@
 package dojo.supermarket.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class Receipt {
 
@@ -14,7 +16,7 @@ public class Receipt {
         discounts.add(discount);
     }
 
-    public void pay(List<ReceiptItem> receiptItems) {
+    public void pay(Collection<ReceiptItem> receiptItems) {
         for (ReceiptItem item : receiptItems) {
             totalPrice += item.getTotalPrice();
         }
