@@ -22,8 +22,8 @@ public class ShoppingCart {
         );
     }
 
-    public Collection<ReceiptItem> items() {
-        return Collections.unmodifiableCollection(items.values());
+    public ArrayList<ReceiptItem> items() {
+        return new ArrayList<>(items.values());
     }
 
     ReceiptItem get(Product product) {

@@ -36,11 +36,11 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offers, cart);
 
-        cart.addItemInCart(ps5, 4);
+        cart.addItemInCart(product("soda"), 4);
         counter.checkout();
 
-        double totalBeforeDiscount = 4 * 200.0;
-        double discount = 200.0;
+        double totalBeforeDiscount = 4 * 1.20;
+        double discount = 1.20;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
         assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
@@ -48,7 +48,7 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
-                .filter(i -> i.getProduct().equals(ps5))
+                .filter(i -> i.getProduct().equals(product("soda")))
                 .findFirst()
                 .orElseThrow();
 
@@ -61,13 +61,11 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offers, cart);
 
-        Product ps5 = new Product("PS5", ProductUnit.EACH, 200.0);
-
-        cart.addItemInCart(ps5, 7);
+        cart.addItemInCart(product("soda"), 7);
         counter.checkout();
 
-        double totalBeforeDiscount = 7 * 200.0;
-        double discount = 2 * 200.0; // two full 3-for-2 groups
+        double totalBeforeDiscount = 7 * 1.20;
+        double discount = 2 * 1.20; // two full 3-for-2 groups
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
         assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
@@ -75,7 +73,7 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
-                .filter(i -> i.getProduct().equals(ps5))
+                .filter(i -> i.getProduct().equals(product("soda")))
                 .findFirst()
                 .orElseThrow();
 

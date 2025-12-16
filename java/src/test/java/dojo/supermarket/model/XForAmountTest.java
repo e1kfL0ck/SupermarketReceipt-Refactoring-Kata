@@ -22,10 +22,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
-        ReceiptItem receiptItem = cart.items().stream()
-                .filter(i -> i.getProduct().equals(product("milk")))
-                .findFirst()
-                .orElseThrow();
+        ReceiptItem receiptItem = cart.items().get(0);
 
         assertEquals(totalBeforeDiscount, receiptItem.getTotalPrice(), 0.01);
         assertEquals(2, receiptItem.getQuantity(), 0.01);
@@ -48,10 +45,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
-        ReceiptItem receiptItem = cart.items().stream()
-                .filter(i -> i.getProduct().equals(product("milk")))
-                .findFirst()
-                .orElseThrow();
+        ReceiptItem receiptItem = cart.items().get(0);
 
         assertEquals(totalBeforeDiscount, receiptItem.getTotalPrice(), 0.01);
         assertEquals(3, receiptItem.getQuantity(), 0.01);
@@ -73,10 +67,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
-        ReceiptItem receiptItem = cart.items().stream()
-                .filter(i -> i.getProduct().equals(product("milk")))
-                .findFirst()
-                .orElseThrow();
+        ReceiptItem receiptItem = cart.items().get(0);
 
         assertEquals(totalBeforeDiscount, receiptItem.getTotalPrice(), 0.01);
         assertEquals(5, receiptItem.getQuantity(), 0.01);
@@ -99,10 +90,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
         assertEquals(1, cart.items().size());
-        ReceiptItem item = cart.items().stream()
-                .filter(i -> i.getProduct().equals(product("steak")))
-                .findFirst()
-                .orElseThrow();
+        ReceiptItem item = cart.items().get(0);
 
         assertEquals(product("steak"), item.getProduct());
         assertEquals(2.42, item.getPrice(), 0.01);
@@ -127,10 +115,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
 
         assertEquals(1, cart.items().size());
-        ReceiptItem item = cart.items().stream()
-                .filter(i -> i.getProduct().equals(product("steak")))
-                .findFirst()
-                .orElseThrow();
+        ReceiptItem item = cart.items().get(0);
 
         assertEquals(product("steak"), item.getProduct());
         assertEquals(2.42, item.getPrice(), 0.0001);
