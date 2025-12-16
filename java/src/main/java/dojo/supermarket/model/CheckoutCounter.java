@@ -109,7 +109,7 @@ public class CheckoutCounter {
     }
 
     private int minQuantity(List<Product> products) {
-        double min = Double.POSITIVE_INFINITY;
+        int min = Integer.MAX_VALUE;
         for (Product p : products) {
             ReceiptItem item = cart.get(p);
             if (item == null) return 0;
