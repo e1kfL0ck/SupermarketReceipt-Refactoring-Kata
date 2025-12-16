@@ -6,21 +6,35 @@ public class ShoppingCart {
 
     private List<Offer> offerCatalog;
     private Receipt receipt = new Receipt();
-    private Map<Product, ReceiptItem> receiptItems = new LinkedHashMap<>();
+    private Map<Product, ReceiptItem> items = new LinkedHashMap<>(); // to preserve insertion order
 
     ShoppingCart(List<Offer> offerCatalog) {
         this.offerCatalog = offerCatalog;
     }
 
+    ShoppingCart() {}
+
     void addItemInCart(Product product, double quantity) {
-        receiptItems.merge(
+        items.merge(
                 product,
                 new ReceiptItem(product, quantity),
                 (existing, added) -> new ReceiptItem(product, existing.getQuantity() + added.getQuantity())
         );
     }
 
+    public Collection<ReceiptItem> items() {
+        return Collections.unmodifiableCollection(items.values());
+    }
 
+    ReceiptItem get(Product product) {
+        return items.get(product);
+    }
+
+    boolean contains(Product product) {
+        return items.containsKey(product);
+    }
+
+/*
     void goToCheckout() {
         //TODO: where should the reciptItems should be ?
         receipt.pay(receiptItems.values());
@@ -148,6 +162,6 @@ public class ShoppingCart {
 
     public List<Offer> getOfferCatalog() {
         return offerCatalog;
-    }
+    }*/
 }
 

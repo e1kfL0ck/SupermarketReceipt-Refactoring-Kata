@@ -6,14 +6,7 @@ public class Discount {
 
     private final String description;
     private final double discountAmount;
-    private Product product;
     private List<Product> products;
-
-    public Discount(Product product, String description, double discountAmount) {
-        this.product = product;
-        this.description = description;
-        this.discountAmount = discountAmount;
-    }
 
     public Discount(List<Product> products, String description, double discountAmount) {
         this.products = products;
@@ -27,10 +20,6 @@ public class Discount {
 
     public String getDescription() {
         return description;
-    }
-
-    public Product getProduct() {
-        return product;
     }
 
     public List<Product> getProducts() {
