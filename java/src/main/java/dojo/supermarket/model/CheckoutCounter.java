@@ -113,7 +113,7 @@ public class CheckoutCounter {
         for (Product p : products) {
             ReceiptItem item = cart.get(p);
             if (item == null) return 0;
-            min = Math.min(min, item.getQuantity());
+            min = (int) Math.min(min, item.getQuantity());
         }
         return min == Double.POSITIVE_INFINITY ? 0 : (int) min;
     }
