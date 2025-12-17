@@ -27,6 +27,16 @@ public class Coupon {
         this.used = false;
     }
 
+    public Coupon(Coupon other) {
+        this.product = other.product;
+        this.validFrom = other.validFrom;
+        this.validTo = other.validTo;
+        this.triggerQuantity = other.triggerQuantity;
+        this.discountedQuantity = other.discountedQuantity;
+        this.discountRate = other.discountRate;
+        this.used = other.used;
+    }
+
     public void markUsed() { this.used = true; }
 
     public boolean isValidOn(LocalDate date) {
