@@ -33,7 +33,7 @@ public class CheckoutCounter {
     }
 
     //TODO: the return receipt is not used, still usefull ?
-    public Receipt checkout(LocalDate checkoutDate, Customer customer) {
+    public Receipt checkout(Customer customer) {
         this.receipt = new Receipt(cart.items());                // IMPORTANT: receipt exist before applying offers and coupons (so qty is the same)
         Map<Product, Integer> remaining = initRemainingEach();
 
@@ -52,8 +52,9 @@ public class CheckoutCounter {
             }
         }*/
 
+        //TODO: Améliorer la méthode afin de limiter les entrées
         for(Product product: remaining.keySet()) {
-            applySingleOfferBestOf(offersMap, product, remaining, customer, checkoutDate);
+            applySingleOfferBestOf(offersMap, product, remaining, customer);
         }
 
         receipt.pay();
@@ -208,10 +209,10 @@ public class CheckoutCounter {
     private void applySingleOfferBestOf(Map<Product, Offer> offersMap,
                                         Product product,
                                         Map<Product, Integer> remaining,
-                                        Customer customer,
-                                        LocalDate checkoutDate) {
+                                        Customer customer) {
 
-        //TODO: iterate on remaining map
+        LocalDate checkoutDate = java.time.LocalDate.now();
+
         Offer offer = offersMap.get(product);
         if (offer == null) return;
         int q = remaining.getOrDefault(product, 0);
@@ -226,7 +227,7 @@ public class CheckoutCounter {
         int offerConsumes = q;
 
         // Coupon discount sur q restant (valide une seule fois)
-        Coupon coupon = customer.getCouponValidity(product, checkoutDate); // retourne null si aucun
+        Coupon coupon = customer.getCouponValidity(product, checkoutDate);
         Discount couponDiscount = computeCouponDiscountOnce(coupon, item, q);
         double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
         int couponConsumes = couponConsumesUnitsOnce(q, coupon); // 0 si non applicable
@@ -249,6 +250,7 @@ public class CheckoutCounter {
     }
 
     private Discount computeCouponDiscountOnce(Coupon coupon, ReceiptItem item, int q) {
+        if (coupon == null) return null;
         int triggerQty = coupon.getTriggerQuantity();
         int discountedQty = coupon.getDiscountedQuantity();
         double discountRate = coupon.getDiscountRate();
@@ -263,6 +265,7 @@ public class CheckoutCounter {
     }
 
     private int couponConsumesUnitsOnce(int qRemaining, Coupon coupon) {
+        if (coupon == null) return 0;
         int trigger = coupon.getTriggerQuantity();
         int discounted = coupon.getDiscountedQuantity();
         return (qRemaining >= trigger + discounted) ? (trigger + discounted) : 0;
