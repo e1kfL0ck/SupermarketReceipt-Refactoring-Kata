@@ -12,8 +12,7 @@ public class Coupon {
     private final double discountRate; // 0.5 = -50%
     private boolean used;
 
-    public Coupon(String code,
-                  Product product,
+    public Coupon(Product product,
                   LocalDate validFrom,
                   LocalDate validTo,
                   int triggerQuantity,
@@ -35,4 +34,19 @@ public class Coupon {
                 && (date.isEqual(validTo) || date.isBefore(validTo));
     }
 
+    public int getTriggerQuantity() {
+        return triggerQuantity;
+    }
+
+    public int getDiscountedQuantity() {
+        return discountedQuantity;
+    }
+
+    public double getDiscountRate() {
+        return discountRate;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
 }
