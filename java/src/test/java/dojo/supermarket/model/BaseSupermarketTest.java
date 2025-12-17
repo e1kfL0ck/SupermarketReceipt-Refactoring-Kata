@@ -21,6 +21,7 @@ public abstract class BaseSupermarketTest {
 
         P.put("apples",     new Product("apples", ProductUnit.KILO, 1.50));
         P.put("toothbrush", new Product("toothbrush", ProductUnit.EACH, 0.50));
+        P.put("toothpaste", new Product("toothpaste", ProductUnit.EACH, 1.50));
         P.put("steak",      new Product("steak", ProductUnit.EACH, 2.42));
         P.put("milk",       new Product("milk", ProductUnit.EACH, 1.37));
         P.put("soda",       new Product("soda", ProductUnit.EACH, 1.20));
@@ -31,7 +32,7 @@ public abstract class BaseSupermarketTest {
         P.put("grapes",     new Product("grapes", ProductUnit.KILO, 3.00));
         P.put("chocolate",  new Product("chocolate", ProductUnit.EACH, 2.00));
 
-        offers.add(new Offer(
+       /* offers.add(new Offer(
                 SpecialOfferType.BUNDLE,
                 10.0,
                 new ArrayList<>(List.of(product("apples"), product("toothbrush")))
@@ -41,7 +42,7 @@ public abstract class BaseSupermarketTest {
                 SpecialOfferType.BUNDLE,
                 10.0,
                 new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
-        ));
+        ));*/
 
         offers.add(new Offer(
                 SpecialOfferType.TEN_PERCENT_DISCOUNT,
@@ -104,11 +105,11 @@ public abstract class BaseSupermarketTest {
 //    @BeforeAll
 //    static void setup2() {
         offersMap.put(
-                product("apples"),
+                product("toothpaste"),
                 new Offer(
                         SpecialOfferType.BUNDLE,
                         10.0,
-                        new ArrayList<>(List.of(product("apples"), product("toothbrush")))
+                        new ArrayList<>(List.of(product("toothpaste"), product("toothbrush")))
                 ));
 
         offersMap.put(
@@ -116,15 +117,15 @@ public abstract class BaseSupermarketTest {
                 new Offer(
                         SpecialOfferType.BUNDLE,
                         10.0,
-                        new ArrayList<>(List.of(product("apples"), product("toothbrush")))
+                        new ArrayList<>(List.of(product("toothpaste"), product("toothbrush")))
                 ));
 
         offersMap.put(
-                product("cheese"),
+                product("milk"),
                 new Offer(
                         SpecialOfferType.BUNDLE,
                         10.0,
-                        new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
+                        new ArrayList<>(List.of(product("milk"), product("ham"), product("bread")))
                 ));
 
         offersMap.put(
@@ -132,7 +133,7 @@ public abstract class BaseSupermarketTest {
                 new Offer(
                         SpecialOfferType.BUNDLE,
                         10.0,
-                        new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
+                        new ArrayList<>(List.of(product("milk"), product("ham"), product("bread")))
                 ));
 
         offersMap.put(
@@ -140,7 +141,7 @@ public abstract class BaseSupermarketTest {
                 new Offer(
                         SpecialOfferType.BUNDLE,
                         10.0,
-                        new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
+                        new ArrayList<>(List.of(product("milk"), product("ham"), product("bread")))
                 ));
 
         offersMap.put(
