@@ -31,9 +31,13 @@ public class XPercentDiscount extends BaseSupermarketTest{
         cart.addItemInCart(product("chocolate"), 3.0);
         counter.checkout();
 
-        double totalBeforeDiscount = 3.2 * 3;
+        double totalBeforeDiscount = 2.0 * 3;
         double discount = totalBeforeDiscount * 0.1;
         double totalAfterDiscount = totalBeforeDiscount - discount;
+
+        ReceiptItem item = cart.items().get(0);
+        assertEquals(2.0, item.getPrice(), 0.01);
+        assertEquals(6.0, item.getTotalPrice(), 0.01);
 
         assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
         assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
