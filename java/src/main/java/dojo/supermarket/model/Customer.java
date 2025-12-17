@@ -12,4 +12,8 @@ public class Customer {
         this.coupons = coupons;
     }
 
+    public Coupon getCouponValidity(Product product, LocalDate checkoutDate) {
+        Coupon coupon = coupons.get(product);
+        return coupon == null || !coupon.isValidOn(checkoutDate) ? null : coupon;
+    }
 }
