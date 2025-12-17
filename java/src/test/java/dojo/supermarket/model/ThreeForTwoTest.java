@@ -9,10 +9,10 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
     @Test
     void threeForTwoDiscount() {
         ShoppingCart cart = new ShoppingCart();
-        CheckoutCounter counter = new CheckoutCounter(offers, cart);
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("soda"), 3);
-        counter.checkout();
+        cart.addItemInCart(product("soda"), 3.0);
+        counter.checkout(customer);
 
         double totalBeforeDiscount = 3 * 1.20;
         double discount = 1.20;
@@ -34,10 +34,10 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
     @Test
     void threeForTwoDiscountFourProducts() {
         ShoppingCart cart = new ShoppingCart();
-        CheckoutCounter counter = new CheckoutCounter(offers, cart);
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("soda"), 4);
-        counter.checkout();
+        cart.addItemInCart(product("soda"), 4.0);
+        counter.checkout(customer);
 
         double totalBeforeDiscount = 4 * 1.20;
         double discount = 1.20;
@@ -59,10 +59,10 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
     @Test
     void threeForTwoDiscountTimesTwo() {
         ShoppingCart cart = new ShoppingCart();
-        CheckoutCounter counter = new CheckoutCounter(offers, cart);
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("soda"), 7);
-        counter.checkout();
+        cart.addItemInCart(product("soda"), 7.0);
+        counter.checkout(customer);
 
         double totalBeforeDiscount = 7 * 1.20;
         double discount = 2 * 1.20; // two full 3-for-2 groups
