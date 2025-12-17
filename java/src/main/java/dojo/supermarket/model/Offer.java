@@ -9,6 +9,18 @@ public class Offer {
     private List<Product> products;
 
     Offer(SpecialOfferType offerType, double discountAmount, List<Product> products) {
+        if (offerType == SpecialOfferType.BUNDLE) {
+            for (int i = 1; i < products.size(); i++) {
+                if (products.get(i).getUnit()== ProductUnit.KILO)) {
+                    throw new IllegalArgumentException("Bundle offer cannot contain Kilo products");
+                }
+            }
+        } else if (!(offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT)) {
+            if(products.getFirst().getUnit()==ProductUnit.KILO) {
+                throw new IllegalArgumentException("Only Ten Percent Discount offer can contain Kilo products");
+            }
+        }
+
         this.offerType = offerType;
         this.discountAmount = discountAmount;
         this.products = products;
