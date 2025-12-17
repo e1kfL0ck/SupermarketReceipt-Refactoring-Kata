@@ -11,6 +11,8 @@ public abstract class BaseSupermarketTest {
 
     protected static final Map<String, Product> P = new HashMap<>();
     protected static final List<Offer> offers = new ArrayList<>();
+    protected static final Map<Product, Offer> offersMap = new HashMap<>();
+    protected static Customer customer;
 
     @BeforeAll
     static void setup() {
@@ -82,6 +84,120 @@ public abstract class BaseSupermarketTest {
                 8.00,
                 new ArrayList<>(List.of(product("chips")))
         ));
+
+        Map<Product, Coupon> coupons = new HashMap<>();
+
+        coupons.put(
+                product("bread"),
+                new Coupon(
+                        product("bread"),
+                        java.time.LocalDate.now().minusDays(1),
+                        java.time.LocalDate.now().plusDays(10),
+                        2,
+                        1,
+                        0.5
+                )
+        );
+        customer = new  Customer(1, coupons);
+//    }
+//
+//    @BeforeAll
+//    static void setup2() {
+        offersMap.put(
+                product("apples"),
+                new Offer(
+                        SpecialOfferType.BUNDLE,
+                        10.0,
+                        new ArrayList<>(List.of(product("apples"), product("toothbrush")))
+                ));
+
+        offersMap.put(
+                product("toothbrush"),
+                new Offer(
+                        SpecialOfferType.BUNDLE,
+                        10.0,
+                        new ArrayList<>(List.of(product("apples"), product("toothbrush")))
+                ));
+
+        offersMap.put(
+                product("cheese"),
+                new Offer(
+                        SpecialOfferType.BUNDLE,
+                        10.0,
+                        new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
+                ));
+
+        offersMap.put(
+                product("ham"),
+                new Offer(
+                        SpecialOfferType.BUNDLE,
+                        10.0,
+                        new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
+                ));
+
+        offersMap.put(
+                product("bread"),
+                new Offer(
+                        SpecialOfferType.BUNDLE,
+                        10.0,
+                        new ArrayList<>(List.of(product("cheese"), product("ham"), product("bread")))
+                ));
+
+        offersMap.put(
+                product("chocolate"),
+                new Offer(
+                        SpecialOfferType.TEN_PERCENT_DISCOUNT,
+                        10.0,
+                        new ArrayList<>(List.of(product("chocolate")))
+                ));
+
+        offersMap.put(
+                product("grapes"),
+                new Offer(
+                        SpecialOfferType.TEN_PERCENT_DISCOUNT,
+                        10.0,
+                        new ArrayList<>(List.of(product("grapes")))
+                ));
+
+        offersMap.put(
+                product("soda"),
+                new Offer(
+                        SpecialOfferType.THREE_FOR_TWO,
+                        0.0,
+                        new ArrayList<>(List.of(product("soda")))
+                ));
+
+        offersMap.put(
+                product("toothbrush"),
+                new Offer(
+                        SpecialOfferType.THREE_FOR_TWO,
+                        0.0,
+                        new ArrayList<>(List.of(product("toothbrush")))
+                ));
+
+        offersMap.put(
+                product("milk"),
+                new Offer(
+                        SpecialOfferType.TWO_FOR_AMOUNT,
+                        2.37,
+                        new ArrayList<>(List.of(product("milk")))
+                ));
+
+        offersMap.put(
+                product("steak"),
+                new Offer(
+                        SpecialOfferType.FIVE_FOR_AMOUNT,
+                        10.00,
+                        new ArrayList<>(List.of(product("steak")))
+                ));
+
+        offersMap.put(
+                product("chips"),
+                new Offer(
+                        SpecialOfferType.FIVE_FOR_AMOUNT,
+                        8.00,
+                        new ArrayList<>(List.of(product("chips")))
+                ));
     }
 
     protected static Product product(String key) {
