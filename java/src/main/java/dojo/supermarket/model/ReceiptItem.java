@@ -6,9 +6,9 @@ public class ReceiptItem {
 
     private final Product product;
     private final double totalPrice;
-    private final double quantity;
+    private final Double quantity;
 
-    ReceiptItem(Product p, double quantity) {
+    ReceiptItem(Product p, Double quantity) {
         product = p;
         this.quantity = quantity;
         totalPrice = p.getPrice() * quantity;
@@ -22,8 +22,12 @@ public class ReceiptItem {
         return product;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
+    }
+
+    public Integer getQuantityAsInt() {
+        return quantity.intValue();
     }
 
     public double getTotalPrice() {
