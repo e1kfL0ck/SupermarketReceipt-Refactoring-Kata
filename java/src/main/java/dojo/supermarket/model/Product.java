@@ -12,6 +12,9 @@ public class Product {
     public Product(String name, ProductUnit unit, Double price) {
         this.name = name;
         this.unit = unit;
+        if (unit == ProductUnit.EACH && price % 1 != 0) {
+            throw new IllegalArgumentException("Price for unit EACH must be an integer value.");
+        }
         this.price = price;
     }
 
