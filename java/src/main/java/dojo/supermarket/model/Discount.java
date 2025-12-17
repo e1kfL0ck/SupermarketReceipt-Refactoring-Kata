@@ -17,12 +17,4 @@ public class Discount {
     public double getDiscountAmount() {
         return discountAmount;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
 }
