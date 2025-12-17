@@ -10,8 +10,8 @@ class BundleOfferTest extends BaseSupermarketTest {
     void bundleBasic() {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offers, cart);
-        cart.addItemInCart(product("apples"), 2);
-        cart.addItemInCart(product("toothbrush"), 2);
+        cart.addItemInCart(product("apples"), 2.0);
+        cart.addItemInCart(product("toothbrush"), 2.0);
 
         counter.checkout();
 
