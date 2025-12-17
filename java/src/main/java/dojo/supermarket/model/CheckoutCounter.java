@@ -193,6 +193,9 @@ public class CheckoutCounter {
 
         if (!containsAll(bundle)) return;
 
+        for (Product p : bundle) {
+            if (p.getUnit() != ProductUnit.EACH) return;
+        }
         int uses = Integer.MAX_VALUE;
         for (Product p : bundle) {
             uses = Math.min(uses, remaining.get(p));
