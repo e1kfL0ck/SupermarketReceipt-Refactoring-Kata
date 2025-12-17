@@ -63,6 +63,19 @@ public class CheckoutCounter {
         if (discount != null) receipt.addDiscount(discount);
     }
 
+    //TODO: new method that will replace the one above
+    private Discount computeOfferDiscount(Offer offer, ReceiptItem item, int q) {
+        double unitPrice = item.getPrice();
+
+        return switch (offer.getOfferType()) {
+            case THREE_FOR_TWO -> discountThreeForTwo(item, q, unitPrice);
+            case TEN_PERCENT_DISCOUNT -> discountPercent(item, offer.getDiscountAmount());
+            case TWO_FOR_AMOUNT -> discountNForAmount(item, q, unitPrice, 2, offer.getDiscountAmount());
+            case FIVE_FOR_AMOUNT -> discountNForAmount(item, q, unitPrice, 5, offer.getDiscountAmount());
+            default -> null;
+        };
+    }
+
     private Discount discountThreeForTwo(ReceiptItem item, int q, double unitPrice) {
         if (q < 3) return null;
         int uses = q / 3;
