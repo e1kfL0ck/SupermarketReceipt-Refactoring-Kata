@@ -1,14 +1,11 @@
 package dojo.supermarket.model;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class BaseSupermarketTest {
 
@@ -98,6 +95,18 @@ public abstract class BaseSupermarketTest {
                         java.time.LocalDate.now().minusDays(1),
                         java.time.LocalDate.now().plusDays(10),
                         2,
+                        1,
+                        0.5
+                )
+        );
+
+        coupons.put(
+                product("soda"),
+                new Coupon(
+                        product("soda"),
+                        java.time.LocalDate.now().minusDays(1),
+                        java.time.LocalDate.now().plusDays(10),
+                        1,
                         1,
                         0.5
                 )
