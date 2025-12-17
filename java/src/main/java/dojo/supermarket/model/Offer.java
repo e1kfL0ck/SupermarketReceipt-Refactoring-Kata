@@ -2,7 +2,6 @@ package dojo.supermarket.model;
 
 import java.util.List;
 
-//TODO: merge discounts and offers ?
 public class Offer {
     private SpecialOfferType offerType;
     private double discountAmount;
@@ -16,7 +15,7 @@ public class Offer {
                 }
             }
         } else if (!(offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT)) {
-            if(products.getFirst().getUnit()==ProductUnit.KILO) {
+            if(products.get(0).getUnit()==ProductUnit.KILO) {
                 throw new IllegalArgumentException("Only Ten Percent Discount offer can contain Kilo products");
             }
         }
