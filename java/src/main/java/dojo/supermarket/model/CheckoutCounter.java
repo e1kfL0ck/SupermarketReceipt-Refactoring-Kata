@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class CheckoutCounter {
     private final List<Offer> bundleOfferCatalog;
+    private final List<Offer> kiloOfferCatalog;
     private final Map<Product, Offer> offersMap;
     private final ShoppingCart cart;
     private Receipt receipt;
@@ -15,6 +16,7 @@ public class CheckoutCounter {
         this.bundleOfferCatalog = bundleOfferCatalog;
         this.cart = cart;
         this.offersMap = null;
+        this.kiloOfferCatalog = null;
     }
 
     public CheckoutCounter(Map<Product, Offer> offersMap, ShoppingCart cart) {
@@ -25,6 +27,12 @@ public class CheckoutCounter {
         offersMap.values().stream()
                 .filter(o -> o.getOfferType() == SpecialOfferType.BUNDLE)
                 .forEach(this.bundleOfferCatalog::add);
+
+        this.kiloOfferCatalog = new ArrayList<>();
+
+        offersMap.values().stream()
+                .filter(o -> o.getFirstProduct().getUnit() == ProductUnit.KILO)
+                .forEach(this.kiloOfferCatalog::add);
 
     }
 
@@ -38,7 +46,7 @@ public class CheckoutCounter {
     //TODO: the return receipt is not used, still usefull ?
     public Receipt checkout(Customer customer) {
         this.receipt = new Receipt(cart.items());                // IMPORTANT: receipt exist before applying offers and coupons (so qty is the same)
-        Map<Product, Double> remaining = initRemainingEach();
+        Map<Product, Integer> remaining = initRemainingEach();
 
         // Apply bundle first
         for (Offer offer : bundleOfferCatalog) {
@@ -47,10 +55,14 @@ public class CheckoutCounter {
             }
         }
 
-        //TODO: Unify use of OffersMap and OfferCatalog
         //TODO: Améliorer la méthode afin de limiter les entrées
-        for(Product product: remaining.keySet()) {
+        for(Product product: new ArrayList<>(remaining.keySet())) { //New array lsit to avoid concurrent modification exception
             applySingleOfferBestOf(offersMap, product, remaining, customer);
+        }
+
+        //Finally apply kilo offers
+        for(Offer offer: kiloOfferCatalog) {
+            applyKiloOffer(offer);
         }
 
         receipt.pay();
@@ -67,12 +79,20 @@ public class CheckoutCounter {
         }
     }
 
+    private void applyKiloOffer(Offer offer) {
+        Product product = offer.getFirstProduct();
+        ReceiptItem item = cart.get(product);
+        if (item == null) return;
+        Discount discount = discountPercent(item, offer.getDiscountAmount());
+        if (discount != null) receipt.addDiscount(discount);
+    }
+
     private void applySingleOffer(Offer offer) {
         Product product = offer.getFirstProduct();
         ReceiptItem item = cart.get(product);
         if (item == null) return;
 
-        Double q = item.getQuantity();
+        int q = item.getQuantityAsInt();
         double unitPrice = item.getPrice();
 
         Discount discount = switch (offer.getOfferType()) {
@@ -87,7 +107,7 @@ public class CheckoutCounter {
     }
 
     //TODO: new method that will replace the one above
-    private Discount computeOfferDiscount(Offer offer, ReceiptItem item, Double q) {
+    private Discount computeOfferDiscount(Offer offer, ReceiptItem item, Integer q) {
         double unitPrice = item.getPrice();
 
         return switch (offer.getOfferType()) {
@@ -100,7 +120,7 @@ public class CheckoutCounter {
         };
     }
 
-    private Discount discountThreeForTwo(ReceiptItem item, Double q, double unitPrice) {
+    private Discount discountThreeForTwo(ReceiptItem item, int q, double unitPrice) {
         if (q < 3) return null;
         double uses = q / 3;
         double normal = q * unitPrice;
@@ -115,7 +135,7 @@ public class CheckoutCounter {
         return amount > 0 ? new Discount(List.of(item.getProduct()), percent + "% off", amount) : null;
     }
 
-    private Discount discountNForAmount(ReceiptItem item, Double q, double unitPrice, int n, double amountForN) {
+    private Discount discountNForAmount(ReceiptItem item, int q, double unitPrice, int n, double amountForN) {
         if (q < n) return null;
         double uses = q / n;
         double normal = uses * n * unitPrice;
@@ -158,22 +178,24 @@ public class CheckoutCounter {
 
     //TODO: ne fonctionne pas avec les produits au poids
     //TODO: vérifier quelles promos peuvent s'appliquer au poids
-    private Map<Product, Double> initRemainingEach() {
-        Map<Product, Double> remaining = new java.util.HashMap<>();
+    private Map<Product, Integer> initRemainingEach() {
+        Map<Product, Integer> remaining = new java.util.HashMap<>();
         for (ReceiptItem item : cart.items()) {
-            remaining.put(item.getProduct(), item.getQuantity());
+            if (item.getProduct().getUnit() == ProductUnit.EACH) {
+                remaining.put(item.getProduct(), item.getQuantityAsInt());
+            }
         }
         return remaining;
     }
 
-    private void applyBundleOfferConsuming(Offer offer, Map<Product, Double> remaining) {
+    private void applyBundleOfferConsuming(Offer offer, Map<Product, Integer> remaining) {
         List<Product> bundle = offer.getProducts();
 
         if (!containsAll(bundle)) return;
 
         int uses = Integer.MAX_VALUE;
         for (Product p : bundle) {
-            uses = (int) Math.min(uses, remaining.get(p));
+            uses = Math.min(uses, remaining.get(p));
         }
         if (uses <= 0) return;
 
@@ -192,7 +214,7 @@ public class CheckoutCounter {
 
         // consommation
         for (Product p : bundle) {
-            double left = remaining.get(p) - uses;
+            Integer left = remaining.get(p) - uses;
             if (left == 0) remaining.remove(p);
             //TODO: check if this case can happen
             else if (left < 0) throw new IllegalStateException("Negative remaining quantity for product " + p.getName());
@@ -205,14 +227,14 @@ public class CheckoutCounter {
     ///  Le second est un double (quantité totale dans le panier)
     private void applySingleOfferBestOf(Map<Product, Offer> offersMap,
                                         Product product,
-                                        Map<Product, Double> remaining,
+                                        Map<Product, Integer> remaining,
                                         Customer customer) {
 
         LocalDate checkoutDate = java.time.LocalDate.now();
 
         Offer offer = offersMap.get(product);
         if (offer == null) return;
-        Double q = remaining.getOrDefault(product, 0.0);
+        Integer q = remaining.getOrDefault(product, 0);
         if (q <= 0) return;
 
         ReceiptItem item = cart.get(product);
@@ -221,13 +243,13 @@ public class CheckoutCounter {
         // Offer discount sur q restant
         Discount offerDiscount = computeOfferDiscount(offer, item, q);
         double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
-        Double offerConsumes = q;
+        Integer offerConsumes = q;
 
         // Coupon discount sur q restant (valide une seule fois)
         Coupon coupon = customer.getCouponValidity(product, checkoutDate);
         Discount couponDiscount = computeCouponDiscountOnce(coupon, item, q);
         double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
-        Double couponConsumes = couponConsumesUnitsOnce(q, coupon); // 0 si non applicable
+        Integer couponConsumes = couponConsumesUnitsOnce(q, coupon); // 0 si non applicable
 
         // Best-of
         if (couponAmount > offerAmount) {
@@ -240,13 +262,13 @@ public class CheckoutCounter {
         }
     }
 
-    private void consume(Map<Product, Double> remaining, Product p, Double used) {
+    private void consume(Map<Product, Integer> remaining, Product p, Integer used) {
         if (used <= 0) return;
-        double left = remaining.getOrDefault(p, 0.0) - used;
+        Integer left = remaining.getOrDefault(p, 0) - used;
         if (left <= 0) remaining.remove(p); else remaining.put(p, left);
     }
 
-    private Discount computeCouponDiscountOnce(Coupon coupon, ReceiptItem item, Double q) {
+    private Discount computeCouponDiscountOnce(Coupon coupon, ReceiptItem item, Integer q) {
         if (coupon == null) return null;
         int triggerQty = coupon.getTriggerQuantity();
         int discountedQty = coupon.getDiscountedQuantity();
@@ -254,18 +276,18 @@ public class CheckoutCounter {
 
         if (q < triggerQty) return null;
 
-        int applicableDiscountedQty = (int) Math.min(discountedQty, q - triggerQty);
+        int applicableDiscountedQty = Math.min(discountedQty, q - triggerQty);
         if (applicableDiscountedQty <= 0) return null;
 
         double amount = applicableDiscountedQty * item.getPrice() * discountRate;
         return amount > 0 ? new Discount(List.of(item.getProduct()), "Coupon " + (discountRate * 100) + "% off", amount) : null;
     }
 
-    private Double couponConsumesUnitsOnce(Double qRemaining, Coupon coupon) {
-        if (coupon == null) return 0.0;
+    private Integer couponConsumesUnitsOnce(Integer qRemaining, Coupon coupon) {
+        if (coupon == null) return 0;
         int trigger = coupon.getTriggerQuantity();
         int discounted = coupon.getDiscountedQuantity();
-        return (double) ((qRemaining >= trigger + discounted) ? (trigger + discounted) : 0);
+        return ((qRemaining >= trigger + discounted) ? (trigger + discounted) : 0);
     }
 
     public Receipt getReceipt() {
