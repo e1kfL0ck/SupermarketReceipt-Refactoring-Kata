@@ -141,4 +141,6 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(0.75, counter.getReceipt().getTotalDiscounts(), 0.01);
         assertEquals(8.25, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
     }
+
+    //TODO: check qty is removed by bundle usage, coupon not used afterwards
 }
