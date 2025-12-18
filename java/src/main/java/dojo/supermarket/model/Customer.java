@@ -26,4 +26,8 @@ public class Customer {
         Coupon coupon = coupons.get(product);
         return coupon == null || !coupon.isValidOn(checkoutDate) || coupon.isUsed() ? null : coupon;
     }
+
+    public int getUnusedCouponsCount() {
+        return (int) coupons.values().stream().filter(coupon -> !coupon.isUsed()).count();
+    }
 }
