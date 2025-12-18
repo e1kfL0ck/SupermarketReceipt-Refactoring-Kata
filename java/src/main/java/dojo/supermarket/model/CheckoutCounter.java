@@ -36,13 +36,6 @@ public class CheckoutCounter {
 
     }
 
-    public Receipt checkout() {
-        receipt = new Receipt(cart.items());
-        this.applyOffers();
-        receipt.pay();
-        return receipt;
-    }
-
     //TODO: the return receipt is not used, still usefull ?
     public Receipt checkout(Customer customer) {
         this.receipt = new Receipt(cart.items());                // IMPORTANT: receipt exist before applying offers and coupons (so qty is the same)
@@ -69,40 +62,11 @@ public class CheckoutCounter {
         return receipt;
     }
 
-    private void applyOffers() {
-        for (Offer offer : bundleOfferCatalog) {
-            if (offer.getOfferType() == SpecialOfferType.BUNDLE) {
-                applyBundleOffer(offer);
-            } else {
-                applySingleOffer(offer);
-            }
-        }
-    }
-
     private void applyKiloOffer(Offer offer) {
         Product product = offer.getFirstProduct();
         ReceiptItem item = cart.get(product);
         if (item == null) return;
         Discount discount = discountPercent(item, offer.getDiscountAmount());
-        if (discount != null) receipt.addDiscount(discount);
-    }
-
-    private void applySingleOffer(Offer offer) {
-        Product product = offer.getFirstProduct();
-        ReceiptItem item = cart.get(product);
-        if (item == null) return;
-
-        int q = item.getQuantityAsInt();
-        double unitPrice = item.getPrice();
-
-        Discount discount = switch (offer.getOfferType()) {
-            case THREE_FOR_TWO -> discountThreeForTwo(item, q, unitPrice);
-            case TEN_PERCENT_DISCOUNT -> discountPercent(item, offer.getDiscountAmount());
-            case TWO_FOR_AMOUNT -> discountNForAmount(item, q, unitPrice, 2, offer.getDiscountAmount());
-            case FIVE_FOR_AMOUNT -> discountNForAmount(item, q, unitPrice, 5, offer.getDiscountAmount());
-            default -> null;
-        };
-
         if (discount != null) receipt.addDiscount(discount);
     }
 
@@ -143,21 +107,6 @@ public class CheckoutCounter {
         return amount > 0 ? new Discount(List.of(item.getProduct()), n + " for " + amountForN, amount) : null;
     }
 
-    private void applyBundleOffer(Offer offer) {
-        List<Product> bundle = offer.getProducts();
-
-        if (!containsAll(bundle)) return;
-
-        int uses = minQuantity(bundle);
-        if (uses <= 0) return;
-
-        double bundleUnitTotal = bundle.stream().mapToDouble(Product::getPrice).sum();
-        double amount = bundleUnitTotal * offer.getDiscountAmount() / 100.0 * uses;
-
-        if (amount > 0) {
-            receipt.addDiscount(new Discount(bundle, offer.getDiscountAmount() + "% off bundle", amount));
-        }
-    }
 
     private boolean containsAll(List<Product> products) {
         for (Product p : products) {
@@ -166,18 +115,6 @@ public class CheckoutCounter {
         return true;
     }
 
-    private int minQuantity(List<Product> products) {
-        int min = Integer.MAX_VALUE;
-        for (Product p : products) {
-            ReceiptItem item = cart.get(p);
-            if (item == null) return 0;
-            min = (int) Math.min(min, item.getQuantity());
-        }
-        return min == Integer.MAX_VALUE ? 0 : min;
-    }
-
-    //TODO: ne fonctionne pas avec les produits au poids
-    //TODO: vérifier quelles promos peuvent s'appliquer au poids
     private Map<Product, Integer> initRemainingEach() {
         Map<Product, Integer> remaining = new java.util.HashMap<>();
         for (ReceiptItem item : cart.items()) {
@@ -193,6 +130,7 @@ public class CheckoutCounter {
 
         if (!containsAll(bundle)) return;
 
+        //TODO: les 2 boucles for dans une méthode à part
         for (Product p : bundle) {
             if (p.getUnit() != ProductUnit.EACH) return;
         }
@@ -203,19 +141,13 @@ public class CheckoutCounter {
         if (uses <= 0) return;
 
         double bundleUnitTotal = bundle.stream().mapToDouble(Product::getPrice).sum();
-        /*
-        Same as :
-        double bundleUnitTotal = 0.0;
-        for (Product p : bundle) {
-            bundleUnitTotal += p.getPrice();
-        }
-         */
         double amount = bundleUnitTotal * offer.getDiscountAmount() / 100.0 * uses;
         if (amount <= 0) return;
 
         receipt.addDiscount(new Discount(bundle, offer.getDiscountAmount() + "% off bundle", amount));
 
         // consommation
+        //TODO: méthode à part ?
         for (Product p : bundle) {
             Integer left = remaining.get(p) - uses;
             if (left == 0) remaining.remove(p);
@@ -228,6 +160,7 @@ public class CheckoutCounter {
     ///TODO: ne pas confondre q avec item.getQuantity()
     ///  Le premier est un int (unités entières restantes à traiter)
     ///  Le second est un double (quantité totale dans le panier)
+    /// TODO: this method needs refactoring to reduce its complexity    
     private void applySingleOfferBestOf(Map<Product, Offer> offersMap,
                                         Product product,
                                         Map<Product, Integer> remaining,
@@ -255,6 +188,7 @@ public class CheckoutCounter {
         Integer couponConsumes = couponConsumesUnitsOnce(q, coupon); // 0 si non applicable
 
         // Best-of
+        //TODO: move to another method
         if (couponAmount > offerAmount) {
             receipt.addDiscount(couponDiscount);
             coupon.markUsed();
