@@ -10,7 +10,7 @@ import java.util.Map;
 public abstract class BaseSupermarketTest {
 
     protected static final Map<String, Product> P = new HashMap<>();
-    protected static final List<Offer> offers = new ArrayList<>();
+    protected static final List<Offer> offers = new ArrayList<>(); //TODO: remove offers
     protected static final Map<Product, Offer> offersMap = new HashMap<>();
     protected static Customer customer;
 
