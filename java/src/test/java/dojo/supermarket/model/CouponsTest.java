@@ -142,7 +142,6 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(8.25, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
     }
 
-    //TODO: check qty is removed by bundle usage, coupon not used afterwards
     @Test
     /**
      * Test that a coupon is not applied if a part of the product quantity has already been used in a bundle offer.
