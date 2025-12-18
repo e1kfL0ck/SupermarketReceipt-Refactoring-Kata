@@ -178,4 +178,42 @@ public class CouponsTest extends BaseSupermarketTest{
 
         assertEquals(couponBeforeCheckout, customerCopy.getUnusedCouponsCount());
     }
+
+    @Test
+    public void testCouponTooOldToBeUsed() {
+        ShoppingCart cart = new ShoppingCart();
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
+
+        Map<Product, Coupon> coupons = new HashMap<>();
+        coupons.put(
+                product("bread"),
+                new Coupon(
+                        product("bread"),
+                        java.time.LocalDate.now().minusDays(10),
+                        java.time.LocalDate.now().minusDays(1),
+                        2,
+                        1,
+                        0.5
+                )
+        );
+        Customer expiredCustomer = new Customer(2, coupons);
+
+        // Buy 3 bread, coupon is expired and should not be applied
+        cart.addItemInCart(product("bread"), 3.0);
+        counter.checkout(expiredCustomer);
+
+        ReceiptItem item = cart.items().get(0);
+        assertEquals(product("bread"), item.getProduct());
+        assertEquals(1.5, item.getPrice(), 0.01);
+        assertEquals(4.5, item.getTotalPrice(), 0.01);
+        assertEquals(3.0, item.getQuantity(), 0.01);
+
+        assertEquals(4.5, counter.getReceipt().getTotalPrice(), 0.01);
+        assertEquals(0.0, counter.getReceipt().getTotalDiscounts(), 0.01);
+        assertEquals(4.5, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+
+        // coupon exists but is expired so still unused
+        assertEquals(1, expiredCustomer.getUnusedCouponsCount());
+    }
+
 }
