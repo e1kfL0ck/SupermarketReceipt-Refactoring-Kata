@@ -198,7 +198,7 @@ public class CheckoutCounter {
         }
         int uses = Integer.MAX_VALUE;
         for (Product p : bundle) {
-            uses = Math.min(uses, remaining.get(p));
+            uses = Math.min(uses, remaining.getOrDefault(p, 0));
         }
         if (uses <= 0) return;
 
