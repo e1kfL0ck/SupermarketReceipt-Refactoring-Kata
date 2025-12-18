@@ -8,7 +8,7 @@ public class ShoppingCart {
 
     ShoppingCart() {}
 
-    void addItemInCart(Product product, Double quantity) {
+    void addItemToCart(Product product, Double quantity) {
         items.merge(
                 product,
                 new ReceiptItem(product, quantity),
