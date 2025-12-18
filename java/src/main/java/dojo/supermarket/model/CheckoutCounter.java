@@ -145,10 +145,10 @@ public class CheckoutCounter {
         return uses;
     }
 
-    ///TODO: ne pas confondre remainingUnits avec item.getQuantity()
-    ///  Le premier est un int (unités entières restantes à traiter)
-    ///  Le second est un double (quantité totale dans le panier)
-    /// TODO: this method needs refactoring to reduce its complexity    
+    // TODO: ne pas confondre remainingUnits avec item.getQuantity()
+    //  Le premier est un int (unités entières restantes à traiter)
+    //  Le second est un double (quantité totale dans le panier)
+    // TODO: this method needs refactoring to reduce its complexity
     private void applySingleOfferBestOf(Map<Product, Offer> offersMap,
                                         Product product,
                                         Map<Product, Integer> remaining,
