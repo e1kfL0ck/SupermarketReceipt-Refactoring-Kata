@@ -12,15 +12,15 @@ public class XPercentDiscount extends BaseSupermarketTest{
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("grapes"), 3.2);
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 3.2 * 3;
         double discount = totalBeforeDiscount * 0.1;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
-        assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0);
+        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(discount, r.getTotalDiscounts(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class XPercentDiscount extends BaseSupermarketTest{
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("chocolate"), 3.0);
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 2.0 * 3;
         double discount = totalBeforeDiscount * 0.1;
@@ -39,8 +39,8 @@ public class XPercentDiscount extends BaseSupermarketTest{
         assertEquals(2.0, item.getPrice(), 0.01);
         assertEquals(6.0, item.getTotalPrice(), 0.01);
 
-        assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
-        assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0);
+        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(discount, r.getTotalDiscounts(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0);
     }
 }

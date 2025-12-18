@@ -177,7 +177,7 @@ public class MultipleCaseTest extends BaseSupermarketTest {
         cart.addItemInCart(product("toothbrush"), 1.0);
         cart.addItemInCart(product("toothpaste"), 1.0);
 
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
         double grapesTotal = 2.2 * 3.0;        // 6.6
         double sodaTotal = 3 * 1.2;            // 3.6
@@ -211,8 +211,8 @@ public class MultipleCaseTest extends BaseSupermarketTest {
         assertEquals(product("steak"), item.getProduct());
         assertEquals(steakTotal, item.getTotalPrice(), 0.01);
 
-        assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
-        assertEquals(totalDiscount, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(totalDiscount, r.getTotalDiscounts(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
     }
 }

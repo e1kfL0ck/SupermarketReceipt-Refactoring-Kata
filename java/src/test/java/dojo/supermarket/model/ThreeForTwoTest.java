@@ -12,15 +12,15 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("soda"), 3.0);
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 3 * 1.20;
         double discount = 1.20;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
-        assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(discount, r.getTotalDiscounts(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
                 .filter(i -> i.getProduct().equals(product("soda")))
@@ -37,15 +37,15 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("soda"), 4.0);
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 4 * 1.20;
         double discount = 1.20;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
-        assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(discount, r.getTotalDiscounts(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
                 .filter(i -> i.getProduct().equals(product("soda")))
@@ -62,15 +62,15 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("soda"), 7.0);
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 7 * 1.20;
         double discount = 2 * 1.20; // two full 3-for-2 groups
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
-        assertEquals(discount, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(discount, r.getTotalDiscounts(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
                 .filter(i -> i.getProduct().equals(product("soda")))

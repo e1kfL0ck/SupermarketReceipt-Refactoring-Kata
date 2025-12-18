@@ -13,9 +13,9 @@ class BundleOfferTest extends BaseSupermarketTest {
         cart.addItemInCart(product("toothpaste"), 2.0);
         cart.addItemInCart(product("toothbrush"), 2.0);
 
-        counter.checkout(customer);
+        Receipt r = counter.checkout(customer);
 
-        assertEquals(0.4, counter.getReceipt().getTotalDiscounts(), 0.01);
-        assertEquals(3.6, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(0.4, r.getTotalDiscounts(), 0.01);
+        assertEquals(3.6, r.getTotalPriceAfterDiscount(), 0.01);
     }
 }
