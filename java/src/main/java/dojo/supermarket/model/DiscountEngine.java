@@ -87,6 +87,40 @@ public class DiscountEngine {
         return uses;
     }
 
+    // TODO: this method needs refactoring to reduce its complexity
+    private void applySingleOfferBestOf(Product product,
+                                        Customer customer) {
+
+        LocalDate checkoutDate = java.time.LocalDate.now();
+
+        Offer offer = offersMap.get(product);
+        if (offer == null) return;
+        Integer remainingUnits = remaining.getOrDefault(product, 0);
+        if (remainingUnits <= 0) return;
+
+        //TODO: séparer en offerCandidate et couponCandidate ?
+        // Offer discount sur remainingUnits restant
+        Discount offerDiscount = computeOfferDiscount(offer, product, remainingUnits);
+        double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
+        Integer offerConsumes = remainingUnits; //TODO: y'a un soucis ?
+
+        // Coupon discount sur remainingUnits restant
+        Coupon coupon = customer.getCouponValidity(product, checkoutDate);
+        Discount couponDiscount = computeCouponDiscountOnce(coupon, product, remainingUnits);
+        double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
+        Integer couponConsumes = couponConsumesUnitsOnce(remainingUnits, coupon); // 0 si non applicable
+
+        // Best-of
+        if (couponAmount > offerAmount) {
+            receipt.addDiscount(couponDiscount);
+            coupon.markUsed();
+            consume(remaining, product, couponConsumes);
+        } else if (offerAmount > 0) {
+            receipt.addDiscount(offerDiscount);
+            consume(remaining, product, offerConsumes);
+        }
+    }
+
     private Discount computeOfferDiscount(Offer offer, Product product, Integer remainingUnits) {
          return switch (offer.getOfferType()) {
             case THREE_FOR_TWO -> discountThreeForTwo(product, remainingUnits);
@@ -119,42 +153,6 @@ public class DiscountEngine {
         double normal = uses * n * unitPrice;
         double amount = normal - uses * amountForN;
         return amount > 0 ? new Discount(List.of(product), n + " for " + amountForN, amount) : null;
-    }
-
-    // TODO: ne pas confondre remainingUnits avec item.getQuantity()
-    //  Le premier est un int (unités entières restantes à traiter)
-    //  Le second est un double (quantité totale dans le panier)
-    // TODO: this method needs refactoring to reduce its complexity
-    private void applySingleOfferBestOf(Product product,
-                                        Customer customer) {
-
-        LocalDate checkoutDate = java.time.LocalDate.now();
-
-        Offer offer = offersMap.get(product);
-        if (offer == null) return;
-        Integer remainingUnits = remaining.getOrDefault(product, 0);
-        if (remainingUnits <= 0) return;
-
-        // Offer discount sur remainingUnits restant
-        Discount offerDiscount = computeOfferDiscount(offer, product, remainingUnits);
-        double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
-        Integer offerConsumes = remainingUnits;
-
-        // Coupon discount sur remainingUnits restant (valide une seule fois)
-        Coupon coupon = customer.getCouponValidity(product, checkoutDate);
-        Discount couponDiscount = computeCouponDiscountOnce(coupon, product, remainingUnits);
-        double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
-        Integer couponConsumes = couponConsumesUnitsOnce(remainingUnits, coupon); // 0 si non applicable
-
-        // Best-of
-        if (couponAmount > offerAmount) {
-            receipt.addDiscount(couponDiscount);
-            coupon.markUsed();
-            consume(remaining, product, couponConsumes);
-        } else if (offerAmount > 0) {
-            receipt.addDiscount(offerDiscount);
-            consume(remaining, product, offerConsumes);
-        }
     }
 
     private void consume(Map<Product, Integer> remaining, Product p, Integer used) {
@@ -194,7 +192,5 @@ public class DiscountEngine {
         if (discount != null) receipt.addDiscount(discount);
     }
 
-    // ici : applyBundleOfferConsuming, applySingleOfferBestOf,
-    // computeOfferDiscount, computeCouponDiscountOnce, etc. (copie depuis CheckoutCounter)
 }
 
