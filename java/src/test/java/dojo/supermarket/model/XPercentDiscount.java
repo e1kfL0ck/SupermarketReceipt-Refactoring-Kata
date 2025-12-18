@@ -9,10 +9,10 @@ public class XPercentDiscount extends BaseSupermarketTest{
     @Test
     void tenPercentDiscountOnKilo() {
         ShoppingCart cart = new ShoppingCart();
-        CheckoutCounter counter = new CheckoutCounter(offers, cart);
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("grapes"), 3.2);
-        counter.checkout();
+        counter.checkout(customer);
 
         double totalBeforeDiscount = 3.2 * 3;
         double discount = totalBeforeDiscount * 0.1;
@@ -26,10 +26,10 @@ public class XPercentDiscount extends BaseSupermarketTest{
     @Test
     void tenPercentDiscountOnEach() {
         ShoppingCart cart = new ShoppingCart();
-        CheckoutCounter counter = new CheckoutCounter(offers, cart);
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
         cart.addItemInCart(product("chocolate"), 3.0);
-        counter.checkout();
+        counter.checkout(customer);
 
         double totalBeforeDiscount = 2.0 * 3;
         double discount = totalBeforeDiscount * 0.1;
