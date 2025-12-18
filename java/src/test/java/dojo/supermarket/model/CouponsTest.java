@@ -143,4 +143,39 @@ public class CouponsTest extends BaseSupermarketTest{
     }
 
     //TODO: check qty is removed by bundle usage, coupon not used afterwards
+    @Test
+    /**
+     * Test that a coupon is not applied if a part of the product quantity has already been used in a bundle offer.
+     * Here milk is in a bundle offer with ham, and bread
+     * Milk is also in TWO_FOR_AMOUNT for 2.37
+     */
+    public void testCouponUnusedAfterBundle() {
+        ShoppingCart cart = new ShoppingCart();
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
+        Customer customerCopy = new Customer(customer);
+        int couponBeforeCheckout = customerCopy.getUnusedCouponsCount();
+
+        cart.addItemInCart(product("milk"), 2.0);
+        cart.addItemInCart(product("ham"), 1.0);
+        cart.addItemInCart(product("bread"), 1.0);
+        Receipt r = counter.checkout(customerCopy);
+
+        Double bundlePrice =  (1.37 + 4.00 + 1.50);
+        Double bundleDiscount = bundlePrice*0.1;
+
+        Double totalPriceBeforeDiscount = (1.37*2) + 4.00 + 1.50;
+        Double totalPriceAfterDiscount = totalPriceBeforeDiscount-bundleDiscount;
+
+        ReceiptItem item = cart.items().get(0);
+        assertEquals(product("milk"), item.getProduct());
+        assertEquals(1.37, item.getPrice(), 0.01);
+        assertEquals(2.74, item.getTotalPrice(), 0.01);
+        assertEquals(2.0, item.getQuantity(), 0.01);
+
+        assertEquals(totalPriceBeforeDiscount, counter.getReceipt().getTotalPrice(), 0.01);
+        assertEquals(bundleDiscount, counter.getReceipt().getTotalDiscounts(), 0.01);
+        assertEquals(totalPriceAfterDiscount, counter.getReceipt().getTotalPriceAfterDiscount(), 0.01);
+
+        assertEquals(couponBeforeCheckout, customerCopy.getUnusedCouponsCount());
+    }
 }
