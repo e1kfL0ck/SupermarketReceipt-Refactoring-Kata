@@ -21,7 +21,7 @@ public class Receipt {
     }
 
     public void pay() {
-        if(totalPriceBeforeDiscount ==0) computeTotalPriceBeforeDiscount();
+        if (totalPriceBeforeDiscount == 0) computeTotalPriceBeforeDiscount();
         for (Discount discount : discounts) {
             totalDiscounts += discount.getDiscountAmount();
         }

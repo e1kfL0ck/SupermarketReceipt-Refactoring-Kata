@@ -3,6 +3,10 @@ package dojo.supermarket.model;
 import java.time.LocalDate;
 import java.util.*;
 
+/*
+    The DiscountEngine applies special offers and coupons to a shopping cart,
+    calculating discounts and updating the receipt accordingly.
+*/
 public class DiscountEngine {
     private final List<Offer> bundleOfferCatalog = new ArrayList<>();
     private final List<Offer> kiloOfferCatalog = new ArrayList<>();
@@ -10,7 +14,7 @@ public class DiscountEngine {
 
     private ShoppingCart cart;
     private Receipt receipt;
-    private Map<Product, Integer> remaining;
+    private Map<Product, Integer> remaining = new HashMap<>();
 
     public DiscountEngine(Map<Product, Offer> offersMap) {
         this.offersMap = offersMap;
@@ -26,7 +30,7 @@ public class DiscountEngine {
     public void applyAll(ShoppingCart cart, Customer customer, Receipt receipt) {
         this.cart = cart;
         this.receipt = receipt;
-        remaining = initRemainingEach();
+        this.initRemainingEach();
 
         for (Offer offer : bundleOfferCatalog) {
             applyBundleOfferConsuming(offer);
@@ -41,14 +45,12 @@ public class DiscountEngine {
         }
     }
 
-    private Map<Product, Integer> initRemainingEach() {
-        Map<Product, Integer> remaining = new java.util.HashMap<>();
+    private void initRemainingEach() {
         for (ReceiptItem item : cart.items()) {
             if (item.getProduct().getUnit() == ProductUnit.EACH) {
                 remaining.put(item.getProduct(), item.getQuantityAsInt());
             }
         }
-        return remaining;
     }
 
     private void applyBundleOfferConsuming(Offer offer) {
