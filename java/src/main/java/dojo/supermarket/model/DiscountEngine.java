@@ -102,7 +102,7 @@ public class DiscountEngine {
         // Offer discount sur remainingUnits restant
         Discount offerDiscount = computeOfferDiscount(offer, product, remainingUnits);
         double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
-        Integer offerConsumes = remainingUnits; //TODO: y'a un soucis ?
+        Integer offerConsumes = remainingUnits;
 
         // Coupon discount sur remainingUnits restant
         Coupon coupon = customer.getCouponValidity(product, checkoutDate);
