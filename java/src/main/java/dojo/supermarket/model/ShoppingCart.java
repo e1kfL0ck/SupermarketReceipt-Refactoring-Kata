@@ -16,7 +16,7 @@ public class ShoppingCart {
         );
     }
 
-    public List<ReceiptItem> items() {
+    public ArrayList<ReceiptItem> items() {
         return new ArrayList<>(items.values());
     }
 
