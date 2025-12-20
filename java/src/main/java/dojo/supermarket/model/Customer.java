@@ -49,4 +49,8 @@ public class Customer {
         return used;
     }
 
+    public void addCoupon(Coupon coupon) {
+        this.coupons.put(coupon.getProduct(), coupon);
+    }
+
 }

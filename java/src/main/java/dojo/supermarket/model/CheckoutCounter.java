@@ -2,7 +2,6 @@ package dojo.supermarket.model;
 
 import java.util.Map;
 
-//TODO: Revert pom.xml to original state before submission
 public class CheckoutCounter {
     private final Map<Product, Offer> offersMap;
     private final ShoppingCart cart;

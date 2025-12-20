@@ -59,4 +59,8 @@ public class Coupon {
     public boolean isUsed() {
         return used;
     }
+
+    public Product getProduct() {
+        return product;
+    }
 }
