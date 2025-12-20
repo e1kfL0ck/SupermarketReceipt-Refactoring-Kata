@@ -21,12 +21,13 @@ public class DiscountEngine {
         this.offersMap.values().stream()
                 .filter(o -> o.getFirstProduct().getUnit() == ProductUnit.KILO)
                 .forEach(kiloOfferCatalog::add);
+
+        this.initRemainingEach();
     }
 
     public void applyAll(ShoppingCart cart, Customer customer, Receipt receipt) {
         this.cart = cart;
         this.receipt = receipt;
-        remaining = initRemainingEach();
 
         for (Offer offer : bundleOfferCatalog) {
             applyBundleOfferConsuming(offer);
@@ -41,14 +42,12 @@ public class DiscountEngine {
         }
     }
 
-    private Map<Product, Integer> initRemainingEach() {
-        Map<Product, Integer> remaining = new java.util.HashMap<>();
+    private void initRemainingEach() {
         for (ReceiptItem item : cart.items()) {
             if (item.getProduct().getUnit() == ProductUnit.EACH) {
                 remaining.put(item.getProduct(), item.getQuantityAsInt());
             }
         }
-        return remaining;
     }
 
     private void applyBundleOfferConsuming(Offer offer) {
@@ -95,7 +94,7 @@ public class DiscountEngine {
 
         Offer offer = offersMap.get(product);
         if (offer == null) return;
-        Integer remainingUnits = remaining.getOrDefault(product, 0);
+        int remainingUnits = remaining.getOrDefault(product, 0);
         if (remainingUnits <= 0) return;
 
         //TODO: séparer en offerCandidate et couponCandidate ?
@@ -108,12 +107,12 @@ public class DiscountEngine {
         Coupon coupon = customer.getCouponValidity(product, checkoutDate);
         Discount couponDiscount = computeCouponDiscountOnce(coupon, product, remainingUnits);
         double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
-        Integer couponConsumes = couponConsumesUnitsOnce(remainingUnits, coupon); // 0 si non applicable
+        int couponConsumes = couponConsumesUnitsOnce(remainingUnits, coupon); // 0 si non applicable
 
         // Best-of
         if (couponAmount > offerAmount) {
             receipt.addDiscount(couponDiscount);
-            coupon.markUsed();
+            if (coupon!= null ) coupon.markUsed();
             consume(remaining, product, couponConsumes);
         } else if (offerAmount > 0) {
             receipt.addDiscount(offerDiscount);
@@ -157,7 +156,7 @@ public class DiscountEngine {
 
     private void consume(Map<Product, Integer> remaining, Product p, Integer used) {
         if (used <= 0) return;
-        Integer left = remaining.getOrDefault(p, 0) - used;
+        int left = remaining.getOrDefault(p, 0) - used;
         if (left <= 0) remaining.remove(p); else remaining.put(p, left);
     }
 
@@ -193,4 +192,3 @@ public class DiscountEngine {
     }
 
 }
-
