@@ -11,7 +11,7 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("soda"), 3.0);
+        cart.addItemToCart(product("soda"), 3.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 3 * 1.20;
@@ -36,7 +36,7 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("soda"), 4.0);
+        cart.addItemToCart(product("soda"), 4.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 4 * 1.20;
@@ -61,7 +61,7 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("soda"), 7.0);
+        cart.addItemToCart(product("soda"), 7.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 7 * 1.20;

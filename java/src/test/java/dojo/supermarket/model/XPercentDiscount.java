@@ -11,7 +11,7 @@ public class XPercentDiscount extends BaseSupermarketTest{
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("grapes"), 3.2);
+        cart.addItemToCart(product("grapes"), 3.2);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 3.2 * 3;
@@ -28,7 +28,7 @@ public class XPercentDiscount extends BaseSupermarketTest{
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("chocolate"), 3.0);
+        cart.addItemToCart(product("chocolate"), 3.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 2.0 * 3;

@@ -168,14 +168,14 @@ public class MultipleCaseTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("grapes"), 2.2); //tenPercent
-        cart.addItemInCart(product("soda"), 3.0); //threeForTwo
-        cart.addItemInCart(product("milk"), 2.0); //twoForAmount
-        cart.addItemInCart(product("steak"), 5.0); //fiveForAmount
+        cart.addItemToCart(product("grapes"), 2.2); //tenPercent
+        cart.addItemToCart(product("soda"), 3.0); //threeForTwo
+        cart.addItemToCart(product("milk"), 2.0); //twoForAmount
+        cart.addItemToCart(product("steak"), 5.0); //fiveForAmount
 
         // Bundle
-        cart.addItemInCart(product("toothbrush"), 1.0);
-        cart.addItemInCart(product("toothpaste"), 1.0);
+        cart.addItemToCart(product("toothbrush"), 1.0);
+        cart.addItemToCart(product("toothpaste"), 1.0);
 
         Receipt r = counter.checkout(customer);
 

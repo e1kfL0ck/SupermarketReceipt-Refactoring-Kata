@@ -11,7 +11,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("milk"), 2.0);
+        cart.addItemToCart(product("milk"), 2.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 2 * 1.37;
@@ -34,7 +34,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("milk"), 3.0);
+        cart.addItemToCart(product("milk"), 3.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 3 * 1.37;
@@ -56,7 +56,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("milk"), 5.0);
+        cart.addItemToCart(product("milk"), 5.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 5 * 1.37;
@@ -78,7 +78,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("steak"), 5.0);
+        cart.addItemToCart(product("steak"), 5.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 5 * 2.42;
@@ -103,7 +103,7 @@ public class XForAmountTest extends BaseSupermarketTest {
         ShoppingCart cart = new ShoppingCart();
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        cart.addItemInCart(product("steak"), 6.0);
+        cart.addItemToCart(product("steak"), 6.0);
         Receipt r = counter.checkout(customer);
 
         double totalBeforeDiscount = 6 * 2.42;

@@ -17,7 +17,7 @@ public class CouponsTest extends BaseSupermarketTest{
         Customer customerCopy = new Customer(customer);
 
         // Buy 2, get 1 for 50% off
-        cart.addItemInCart(product("bread"), 3.0);
+        cart.addItemToCart(product("bread"), 3.0);
         Receipt r = counter.checkout(customerCopy);
 
         ReceiptItem item = cart.items().get(0);
@@ -48,7 +48,7 @@ public class CouponsTest extends BaseSupermarketTest{
 
         CheckoutCounter counter = new CheckoutCounter(myOffersMap, cart);
 
-        cart.addItemInCart(product("soda"), 2.0);
+        cart.addItemToCart(product("soda"), 2.0);
         Receipt r = counter.checkout(customerCopy);
 
         ReceiptItem item = cart.items().get(0);
@@ -78,7 +78,7 @@ public class CouponsTest extends BaseSupermarketTest{
         CheckoutCounter counter = new CheckoutCounter(myOffersMap, cart);
 
         // Buy 2, get 1 for 50% off
-        cart.addItemInCart(product("bread"), 3.0);
+        cart.addItemToCart(product("bread"), 3.0);
         Receipt r = counter.checkout(customer);
 
         ReceiptItem item = cart.items().get(0);
@@ -108,7 +108,7 @@ public class CouponsTest extends BaseSupermarketTest{
         CheckoutCounter counter = new CheckoutCounter(myOffersMap, cart);
 
         // Buy 2, get 1 for 50% off
-        cart.addItemInCart(product("bread"), 3.0);
+        cart.addItemToCart(product("bread"), 3.0);
         Receipt r = counter.checkout(customerCopy);
 
         ReceiptItem item = cart.items().get(0);
@@ -128,7 +128,7 @@ public class CouponsTest extends BaseSupermarketTest{
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
         Customer customerCopy = new Customer(customer);
         // Buy 2, get 1 for 50% off but only once
-        cart.addItemInCart(product("bread"), 6.0);
+        cart.addItemToCart(product("bread"), 6.0);
         Receipt r = counter.checkout(customerCopy);
 
         ReceiptItem item = cart.items().get(0);
@@ -154,9 +154,9 @@ public class CouponsTest extends BaseSupermarketTest{
         Customer customerCopy = new Customer(customer);
         int couponBeforeCheckout = customerCopy.getUnusedCouponsCount();
 
-        cart.addItemInCart(product("milk"), 2.0);
-        cart.addItemInCart(product("ham"), 1.0);
-        cart.addItemInCart(product("bread"), 1.0);
+        cart.addItemToCart(product("milk"), 2.0);
+        cart.addItemToCart(product("ham"), 1.0);
+        cart.addItemToCart(product("bread"), 1.0);
         Receipt r = counter.checkout(customerCopy);
 
         Double bundlePrice =  (1.37 + 4.00 + 1.50);
@@ -198,7 +198,7 @@ public class CouponsTest extends BaseSupermarketTest{
         Customer expiredCustomer = new Customer(2, coupons);
 
         // Buy 3 bread, coupon is expired and should not be applied
-        cart.addItemInCart(product("bread"), 3.0);
+        cart.addItemToCart(product("bread"), 3.0);
         Receipt r = counter.checkout(expiredCustomer);
 
         ReceiptItem item = cart.items().get(0);
