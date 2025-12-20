@@ -9,7 +9,7 @@ public class Offer {
 
     Offer(SpecialOfferType offerType, double discountAmount, List<Product> products) {
         if (offerType == SpecialOfferType.BUNDLE) {
-            for (int i = 1; i < products.size(); i++) {
+            for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getUnit()== ProductUnit.KILO) {
                     throw new IllegalArgumentException("Bundle offer cannot contain Kilo products");
                 }
