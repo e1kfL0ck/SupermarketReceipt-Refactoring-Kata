@@ -159,11 +159,11 @@ public class CouponsTest extends BaseSupermarketTest{
         cart.addItemToCart(product("bread"), 1.0);
         Receipt r = counter.checkout(customerCopy);
 
-        Double bundlePrice =  (1.37 + 4.00 + 1.50);
-        Double bundleDiscount = bundlePrice*0.1;
+        double bundlePrice =  (1.37 + 4.00 + 1.50);
+        double bundleDiscount = bundlePrice*0.1;
 
-        Double totalPriceBeforeDiscount = (1.37*2) + 4.00 + 1.50;
-        Double totalPriceAfterDiscount = totalPriceBeforeDiscount-bundleDiscount;
+        double totalPriceBeforeDiscount = (1.37*2) + 4.00 + 1.50;
+        double totalPriceAfterDiscount = totalPriceBeforeDiscount-bundleDiscount;
 
         ReceiptItem item = cart.items().get(0);
         assertEquals(product("milk"), item.getProduct());
