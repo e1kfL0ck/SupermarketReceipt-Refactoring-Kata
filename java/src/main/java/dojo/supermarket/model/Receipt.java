@@ -32,6 +32,14 @@ public class Receipt {
         totalPriceAfterDiscount = totalPrice - totalDiscounts;
     }
 
+    public double computeTotalPrice() {
+        double total = 0;
+        for (ReceiptItem item : items) {
+            total += item.getTotalPrice();
+        }
+        return total;
+    }
+
     public double getTotalPrice() {
         return totalPrice;
     }
