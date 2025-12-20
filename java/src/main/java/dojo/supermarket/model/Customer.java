@@ -20,7 +20,7 @@ public class Customer {
         for (var e : other.coupons.entrySet()) {
             this.coupons.put(e.getKey(), new Coupon(e.getValue()));
         }
-        //Copy the value (deep copy) not the reference (shallow copy) because int is primitive type
+        // Copy the credit points value; primitives like int are always copied by value in Java
         this.creditPoints = other.creditPoints;
     }
 
