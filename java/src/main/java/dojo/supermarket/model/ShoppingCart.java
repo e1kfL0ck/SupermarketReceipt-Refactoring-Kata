@@ -8,7 +8,7 @@ public class ShoppingCart {
 
     ShoppingCart() {}
 
-    void addItemToCart(Product product, Double quantity) {
+    void addItemToCart(Product product, double quantity) {
         items.merge(
                 product,
                 new ReceiptItem(product, quantity),
@@ -16,7 +16,7 @@ public class ShoppingCart {
         );
     }
 
-    public ArrayList<ReceiptItem> items() {
+    public List<ReceiptItem> items() {
         return new ArrayList<>(items.values());
     }
 
