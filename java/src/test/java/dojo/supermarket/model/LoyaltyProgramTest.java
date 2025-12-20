@@ -25,7 +25,6 @@ class LoyaltyProgramTest {
         assertEquals(0.12, loyalty.pointsToEuros(12), 1e-9);
         assertEquals(5.61, loyalty.pointsToEuros(561), 1e-9);
 
-        //TODO: vérifier fct Math.floor
         assertEquals(23, loyalty.eurosToPoints(0.23));
         assertEquals(1000, loyalty.eurosToPoints(10));
         assertEquals(1299, loyalty.eurosToPoints(12.99), "floor(12.99) = 12");
