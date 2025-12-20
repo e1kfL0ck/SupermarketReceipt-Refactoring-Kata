@@ -90,38 +90,51 @@ public class DiscountEngine {
     }
 
     // TODO: this method needs refactoring to reduce its complexity
-    private void applySingleOfferBestOf(Product product,
-                                        Customer customer) {
-
-        LocalDate checkoutDate = java.time.LocalDate.now();
-
+    private void applySingleOfferBestOf(Product product, Customer customer) {
+        LocalDate checkoutDate = LocalDate.now();
         Offer offer = offersMap.get(product);
         if (offer == null) return;
-        Integer remainingUnits = remaining.getOrDefault(product, 0);
-        if (remainingUnits <= 0) return;
 
-        //TODO: séparer en offerCandidate et couponCandidate ?
-        // Offer discount sur remainingUnits restant
-        Discount offerDiscount = computeOfferDiscount(offer, product, remainingUnits);
-        double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
-        Integer offerConsumes = remainingUnits;
+        while (true) {
+            int remainingUnits = remaining.getOrDefault(product, 0);
+            if (remainingUnits <= 0) return;
 
-        // Coupon discount sur remainingUnits restant
-        Coupon coupon = customer.getCouponValidity(product, checkoutDate);
-        Discount couponDiscount = computeCouponDiscountOnce(coupon, product, remainingUnits);
-        double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
-        Integer couponConsumes = couponConsumesUnitsOnce(remainingUnits, coupon); // 0 si non applicable
+            // OFFER
+            Discount offerDiscount = computeOfferDiscount(offer, product, remainingUnits);
+            double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
+            int offerConsumes = offerConsumesUnits(offer, remainingUnits);
 
-        // Best-of
-        if (couponAmount > offerAmount) {
-            receipt.addDiscount(couponDiscount);
-            coupon.markUsed();
-            consume(remaining, product, couponConsumes);
-        } else if (offerAmount > 0) {
-            receipt.addDiscount(offerDiscount);
-            consume(remaining, product, offerConsumes);
+            // si l’offre ne consomme rien (ex: remaining < seuil), elle n’est pas applicable
+            if (offerConsumes <= 0) {
+                offerAmount = 0.0;
+                offerDiscount = null;
+            }
+
+            // COUPON
+            Coupon coupon = customer.getCouponValidity(product, checkoutDate);
+            Discount couponDiscount = (coupon == null) ? null : computeCouponDiscountOnce(coupon, product, remainingUnits);
+            double couponAmount = couponDiscount == null ? 0.0 : couponDiscount.getDiscountAmount();
+            int couponConsumes = (coupon == null) ? 0 : couponConsumesUnitsOnce(remainingUnits, coupon);
+
+            if (couponConsumes <= 0) {
+                couponAmount = 0.0;
+                couponDiscount = null;
+            }
+
+            // Aucun discount applicable
+            if (offerAmount <= 0.0 && couponAmount <= 0.0) return;
+
+            if (couponAmount > offerAmount) {
+                receipt.addDiscount(couponDiscount);
+                coupon.markUsed();
+                consume(remaining, product, couponConsumes);
+            } else {
+                receipt.addDiscount(offerDiscount);
+                consume(remaining, product, offerConsumes);
+            }
         }
     }
+
 
     private Discount computeOfferDiscount(Offer offer, Product product, Integer remainingUnits) {
          return switch (offer.getOfferType()) {
@@ -130,6 +143,20 @@ public class DiscountEngine {
             case TWO_FOR_AMOUNT -> discountNForAmount(product, remainingUnits, 2, offer.getDiscountAmount());
             case FIVE_FOR_AMOUNT -> discountNForAmount(product, remainingUnits,5, offer.getDiscountAmount());
             default -> null;
+        };
+    }
+
+    private int offerConsumesUnits(Offer offer, int remainingUnits) {
+        if (offer == null || remainingUnits <= 0) return 0;
+
+        return switch (offer.getOfferType()) {
+            case THREE_FOR_TWO -> (remainingUnits / 3) * 3;
+            case TWO_FOR_AMOUNT -> (remainingUnits / 2) * 2;
+            case FIVE_FOR_AMOUNT -> (remainingUnits / 5) * 5;
+
+            case TEN_PERCENT_DISCOUNT -> remainingUnits;
+
+            default -> 0;
         };
     }
 

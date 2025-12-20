@@ -2,6 +2,9 @@ package dojo.supermarket.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ThreeForTwoTest extends BaseSupermarketTest {
@@ -81,4 +84,33 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         assertEquals(7, receiptItem.getQuantity(), 0.01);
     }
 
+    @Test
+    void threeForTwoAndCoupon() {
+        ShoppingCart cart = new ShoppingCart();
+        CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
+
+        // Coupon: trigger=1, discounted=1, rate=50% (0.5)
+        Coupon coupon = new Coupon(
+                product("soda"), LocalDate.now().minusDays(1),
+                LocalDate.now().plusDays(1),
+                1, 1, 0.5
+        );
+
+        // Customer stub: retourne le coupon pour soda
+        Customer customerWithCoupon = new Customer(customer);
+        customerWithCoupon.addCoupon(coupon);
+
+        cart.addItemToCart(product("soda"), 5.0);
+        Receipt r = counter.checkout(customerWithCoupon);
+
+        double totalBefore = 5 * 1.20;
+        double expectedDiscount = 1.20 + 0.60; //3 for 2 and 1 + 1 with 50% off
+        double expectedTotal = totalBefore - expectedDiscount;
+
+        assertEquals(totalBefore, r.getTotalPriceBeforeDiscount(), 0.01);
+
+        // Ce test échoue avec ton code actuel: r.getTotalDiscounts() vaut 1.20 au lieu de 1.80
+        assertEquals(expectedDiscount, r.getTotalDiscounts(), 0.01);
+        assertEquals(expectedTotal, r.getTotalPrice(), 0.01);
+    }
 }
