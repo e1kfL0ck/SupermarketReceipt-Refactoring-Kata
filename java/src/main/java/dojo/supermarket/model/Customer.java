@@ -20,7 +20,8 @@ public class Customer {
         for (var e : other.coupons.entrySet()) {
             this.coupons.put(e.getKey(), new Coupon(e.getValue()));
         }
-
+        //Copy the value (deep copy) not the reference (shallow copy) because int is primitive type
+        this.creditPoints = other.creditPoints;
     }
 
     public Coupon getCouponValidity(Product product, LocalDate checkoutDate) {
@@ -34,6 +35,9 @@ public class Customer {
 
     public int getCreditPoints() { return creditPoints; }
 
+    /* Add credit points to the customer's account
+    * Used for tests
+    * */
     public void addCreditPoints(int points) {
         if (points > 0) creditPoints += points;
     }
