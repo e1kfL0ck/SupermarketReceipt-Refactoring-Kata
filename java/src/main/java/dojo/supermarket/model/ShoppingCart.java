@@ -1,76 +1,32 @@
 package dojo.supermarket.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShoppingCart {
 
-    private final List<ProductQuantity> items = new ArrayList<>();
-    private final Map<Product, Double> productQuantities = new HashMap<>();
+    private Map<Product, ReceiptItem> items = new LinkedHashMap<>(); // to preserve insertion order
 
-    List<ProductQuantity> getItems() {
-        return Collections.unmodifiableList(items);
+    ShoppingCart() {}
+
+    void addItemInCart(Product product, double quantity) {
+        items.merge(
+                product,
+                new ReceiptItem(product, quantity),
+                (existing, added) -> new ReceiptItem(product, existing.getQuantity() + added.getQuantity())
+        );
     }
 
-    void addItem(Product product) {
-        addItemQuantity(product, 1.0);
+    public ArrayList<ReceiptItem> items() {
+        return new ArrayList<>(items.values());
     }
 
-    Map<Product, Double> productQuantities() {
-        return Collections.unmodifiableMap(productQuantities);
+    ReceiptItem get(Product product) {
+        return items.get(product);
     }
 
-    public void addItemQuantity(Product product, double quantity) {
-        items.add(new ProductQuantity(product, quantity));
-        if (productQuantities.containsKey(product)) {
-            productQuantities.put(product, productQuantities.get(product) + quantity);
-        } else {
-            productQuantities.put(product, quantity);
-        }
+    boolean contains(Product product) {
+        return items.containsKey(product);
     }
 
-    void handleOffers(Receipt receipt, Map<Product, Offer> offers, SupermarketCatalog catalog) {
-        for (Product product: productQuantities().keySet()) {
-            double quantity = productQuantities.get(product);
-            if (offers.containsKey(product)) {
-                Offer offer = offers.get(product);
-                double unitPrice = catalog.getUnitPrice(product);
-                int quantityAsInt = (int) quantity;
-                Discount discount = null;
-                int x = 1;
-                if (offer.offerType == SpecialOfferType.THREE_FOR_TWO) {
-                    x = 3;
-
-                } else if (offer.offerType == SpecialOfferType.TWO_FOR_AMOUNT) {
-                    x = 2;
-                    if (quantityAsInt >= 2) {
-                        double total = offer.argument * (quantityAsInt / x) + //partie two for amount
-                                quantityAsInt % 2 * unitPrice; // partie non divisible par 2
-                        double discountN = unitPrice * quantity - total; //total value of the discount
-                        discount = new Discount(product, "2 for " + offer.argument, -discountN);
-                    }
-
-                } if (offer.offerType == SpecialOfferType.FIVE_FOR_AMOUNT) {
-                    x = 5;
-                }
-                int numberOfXs = quantityAsInt / x;
-                if (offer.offerType == SpecialOfferType.THREE_FOR_TWO && quantityAsInt > 2) {
-                    double discountAmount = quantity * unitPrice - ((numberOfXs * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
-                    discount = new Discount(product, "3 for 2", -discountAmount);
-                }
-                if (offer.offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT) {
-                    discount = new Discount(product, offer.argument + "% off", -quantity * unitPrice * offer.argument / 100.0);
-                }
-                if (offer.offerType == SpecialOfferType.FIVE_FOR_AMOUNT && quantityAsInt >= 5) {
-                    double discountTotal = unitPrice * quantity - (offer.argument * numberOfXs + quantityAsInt % 5 * unitPrice);
-                    discount = new Discount(product, x + " for " + offer.argument, -discountTotal);
-                }
-                if (discount != null)
-                    receipt.addDiscount(discount);
-            }
-        }
-    }
 }
+

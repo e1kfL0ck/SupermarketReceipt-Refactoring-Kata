@@ -5,19 +5,20 @@ import java.util.Objects;
 public class ReceiptItem {
 
     private final Product product;
-    private final double price;
     private final double totalPrice;
     private final double quantity;
 
-    ReceiptItem(Product p, double quantity, double price, double totalPrice) {
-        this.product = p;
+    ReceiptItem(Product p, double quantity) {
+        product = p;
+        if (p.getUnit() == ProductUnit.EACH && quantity % 1 != 0) {
+            throw new IllegalArgumentException("Qty for unit EACH must be an integer value.");
+        }
         this.quantity = quantity;
-        this.price = price;
-        this.totalPrice = totalPrice;
+        totalPrice = p.getPrice() * quantity;
     }
 
     public double getPrice() {
-        return price;
+        return product.getPrice();
     }
 
     public Product getProduct() {
@@ -28,6 +29,10 @@ public class ReceiptItem {
         return quantity;
     }
 
+    public int getQuantityAsInt() {
+        return (int) quantity;
+    }
+
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -36,9 +41,8 @@ public class ReceiptItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ReceiptItem)) return false;
-        //TODO: de meme c quoi cette merde ?
         ReceiptItem that = (ReceiptItem) o;
-        return Double.compare(that.price, price) == 0 &&
+        return Double.compare(that.product.getPrice(), product.getPrice()) == 0 &&
                 Double.compare(that.totalPrice, totalPrice) == 0 &&
                 Double.compare(that.quantity, quantity) == 0 &&
                 Objects.equals(product, that.product);
@@ -46,6 +50,6 @@ public class ReceiptItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(product, price, totalPrice, quantity);
+        return Objects.hash(product, product.getPrice(), totalPrice, quantity);
     }
 }
