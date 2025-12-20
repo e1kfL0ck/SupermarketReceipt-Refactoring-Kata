@@ -35,9 +35,10 @@ public class Customer {
 
     public int getCreditPoints() { return creditPoints; }
 
-    /* Add credit points to the customer's account
-    * Used for tests
-    * */
+    /**
+     * Adds credit points to the customer's account.
+     * Used for tests.
+     */
     public void addCreditPoints(int points) {
         if (points > 0) creditPoints += points;
     }

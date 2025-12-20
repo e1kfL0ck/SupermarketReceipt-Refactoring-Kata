@@ -26,7 +26,7 @@ public class Receipt {
             totalDiscounts += discount.getDiscountAmount();
         }
 
-        totalPrice = totalPriceBeforeDiscount - totalDiscounts - this.creditPointsUsed;
+        totalPrice = totalPriceBeforeDiscount - totalDiscounts;
     }
 
     public double computeTotalPriceBeforeDiscount() {

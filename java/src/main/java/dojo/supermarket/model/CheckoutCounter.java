@@ -25,7 +25,7 @@ public class CheckoutCounter {
         int usedPoints = customer.useCreditPoints(maxPointsNeeded);
         double coveredByPoints = loyalty.pointsToEuros(usedPoints);
 
-        if (coveredByPoints>0) receipt.usePoints(coveredByPoints);
+        if (coveredByPoints > 0) receipt.usePoints(coveredByPoints);
 
         // win points only on the amount actually paid
         int earned = loyalty.earnPoints(receipt.getTotalPrice());

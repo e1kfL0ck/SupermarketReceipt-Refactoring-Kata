@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LoyaltyIntegrationTest extends BaseSupermarketTest{
+public class LoyaltyIntegrationTest extends BaseSupermarketTest {
 
     @Test
     void checkCustomerPointIncrease() {
@@ -41,17 +41,14 @@ public class LoyaltyIntegrationTest extends BaseSupermarketTest{
 
         // now test point usage
         cart.addItemToCart(product("apples"), 3.0);
-        Receipt receiptAferUsage = counter.checkout(customer);
+        Receipt receiptAfterUsage = counter.checkout(customer);
 
         double totalPrice = 9-(after/100.0); // 9 - 0.45 = 8.55
         double newPoints = Math.floor(totalPrice*10); // 8.55 -> 85 points
 
-        assertEquals(totalPrice, receiptAferUsage.getTotalPrice(), 0.01);
+        assertEquals(totalPrice, receiptAfterUsage.getTotalPrice(), 0.01);
         assertEquals(newPoints, customer.getCreditPoints());
     }
-
-    //TODO: test point usage exceeding available points
-    //TODO: test point usage and discounts together
 
     @Test
     void checkPointUsageExceedingAvailablePoints() {
@@ -62,7 +59,7 @@ public class LoyaltyIntegrationTest extends BaseSupermarketTest{
 
         CheckoutCounter counter = new CheckoutCounter(offersMap, cart);
 
-        int before = customer.getCreditPoints(); // 200
+        int before = customer.getCreditPoints(); // 2000
         Receipt receipt = counter.checkout(customer);
 
         assertEquals(4.5, receipt.getTotalPriceBeforeDiscount(), 0.01);

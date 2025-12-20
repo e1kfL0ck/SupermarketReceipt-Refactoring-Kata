@@ -160,6 +160,6 @@ public abstract class BaseSupermarketTest {
                 )
         );
 
-        customer = new  Customer(1, coupons);
+        customer = new Customer(1, coupons);
     }
 }
