@@ -19,19 +19,16 @@ public class CheckoutCounter {
         Receipt receipt = new Receipt(cart.items());
         engine.applyAll(cart, customer, receipt);
 
-        double total = receipt.computeTotalPrice();
-
-        int maxPointsNeeded = loyalty.moneyToPoints(total);
-        int usedPoints = customer.useCreditPoints(maxPointsNeeded);
-        double covered = loyalty.pointsToMoney(usedPoints);
-
-        double paidByCash = total - covered;
-
-        //receipt.pay(new PaymentResult(paidByCash, usedPoints));
         receipt.pay();
 
-        // gain de points sur l'argent réellement dépensé (règle simple)
-        int earned = loyalty.earnPoints(paidByCash);
+        int maxPointsNeeded = loyalty.eurosToPoints(receipt.getTotalPrice());
+        int usedPoints = customer.useCreditPoints(maxPointsNeeded);
+        double coveredByPoints = loyalty.pointsToEuros(usedPoints);
+
+        if (coveredByPoints>0) receipt.usePoints(coveredByPoints);
+
+        // win points only on the amount actually paid
+        int earned = loyalty.earnPoints(receipt.getTotalPrice());
         customer.addCreditPoints(earned);
 
         return receipt;
