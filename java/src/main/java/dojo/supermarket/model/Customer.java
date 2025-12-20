@@ -8,6 +8,7 @@ public class Customer {
 
     private int id;
     private Map<Product, Coupon> coupons;
+    private int creditPoints;
 
     public Customer(int id, Map<Product, Coupon> coupons) {
         this.id = id;
@@ -30,4 +31,17 @@ public class Customer {
     public int getUnusedCouponsCount() {
         return (int) coupons.values().stream().filter(coupon -> !coupon.isUsed()).count();
     }
+
+    public int getCreditPoints() { return creditPoints; }
+
+    public void addCreditPoints(int points) {
+        if (points > 0) creditPoints += points;
+    }
+
+    public int useCreditPoints(int pointsRequested) {
+        int used = Math.min(pointsRequested, creditPoints);
+        creditPoints -= used;
+        return used;
+    }
+
 }
