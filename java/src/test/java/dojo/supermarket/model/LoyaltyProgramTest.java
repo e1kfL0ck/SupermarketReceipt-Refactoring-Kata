@@ -11,19 +11,23 @@ class LoyaltyProgramTest {
     @Test
     void testEarnPoints() {
         // 26.04€ -> 26.04 -> 26 points
-        assertEquals(26, loyalty.earnPoints(26.04), "Earn should be floor(26.04) = 26");
-        assertEquals(9, loyalty.earnPoints(9.99), "floor(9.99) = 9");
-        assertEquals(10, loyalty.earnPoints(10.00), "floor(10) = 1");
+        assertEquals(260, loyalty.earnPoints(26.04), "Earn should be floor(26.04) = 26");
+        assertEquals(99, loyalty.earnPoints(9.99), "floor(9.99) = 9");
+        assertEquals(100, loyalty.earnPoints(10.00), "floor(10) = 1");
+        assertEquals(15, loyalty.earnPoints(1.56), "floor(10) = 1");
+
     }
 
     @Test
     void testConvertPoints() {
-        // Spéc: 1 point = 1€
-        assertEquals(0.1, loyalty.pointsToMoney(1), 1e-9);
-        assertEquals(1.2, loyalty.pointsToMoney(12), 1e-9);
+        // Spec: 100 point = 1€
+        assertEquals(0.01, loyalty.pointsToEuros(1), 1e-9);
+        assertEquals(0.12, loyalty.pointsToEuros(12), 1e-9);
+        assertEquals(5.61, loyalty.pointsToEuros(561), 1e-9);
 
         //TODO: vérifier fct Math.floor
-        assertEquals(1, loyalty.moneyToPoints(1.0));
-        assertEquals(12, loyalty.moneyToPoints(12.99), "floor(12.99) = 12");
+        assertEquals(23, loyalty.eurosToPoints(0.23));
+        assertEquals(1000, loyalty.eurosToPoints(10));
+        assertEquals(1299, loyalty.eurosToPoints(12.99), "floor(12.99) = 12");
     }
 }

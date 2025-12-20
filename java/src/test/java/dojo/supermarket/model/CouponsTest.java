@@ -26,9 +26,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(4.5, item.getTotalPrice(), 0.01);
         assertEquals(3.0, item.getQuantity(), 0.01);
 
-        assertEquals(4.5, r.getTotalPrice(), 0.01);
+        assertEquals(4.5, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(0.75, r.getTotalDiscounts(), 0.01);
-        assertEquals(3.75, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(3.75, r.getTotalPrice(), 0.01);
     }
 
     @Test
@@ -57,9 +57,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(2.4, item.getTotalPrice(), 0.01);
         assertEquals(2.0, item.getQuantity(), 0.01);
 
-        assertEquals(2.4, r.getTotalPrice(), 0.01);
+        assertEquals(2.4, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(0.6, r.getTotalDiscounts(), 0.01);
-        assertEquals(1.8, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(1.8, r.getTotalPrice(), 0.01);
     }
 
     @Test
@@ -87,9 +87,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(4.5, item.getTotalPrice(), 0.01);
         assertEquals(3.0, item.getQuantity(), 0.01);
 
-        assertEquals(4.5, r.getTotalPrice(), 0.01);
+        assertEquals(4.5, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(2.0, r.getTotalDiscounts(), 0.01);
-        assertEquals(2.5, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(2.5, r.getTotalPrice(), 0.01);
     }
 
     @Test
@@ -117,9 +117,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(4.5, item.getTotalPrice(), 0.01);
         assertEquals(3.0, item.getQuantity(), 0.01);
 
-        assertEquals(4.5, r.getTotalPrice(), 0.01);
+        assertEquals(4.5, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(0.75, r.getTotalDiscounts(), 0.01);
-        assertEquals(3.75, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(3.75, r.getTotalPrice(), 0.01);
     }
 
     @Test
@@ -137,9 +137,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(9, item.getTotalPrice(), 0.01);
         assertEquals(6.0, item.getQuantity(), 0.01);
 
-        assertEquals(9, r.getTotalPrice(), 0.01);
+        assertEquals(9, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(0.75, r.getTotalDiscounts(), 0.01);
-        assertEquals(8.25, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(8.25, r.getTotalPrice(), 0.01);
     }
 
     @Test
@@ -171,9 +171,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(2.74, item.getTotalPrice(), 0.01);
         assertEquals(2.0, item.getQuantity(), 0.01);
 
-        assertEquals(totalPriceBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(totalPriceBeforeDiscount, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(bundleDiscount, r.getTotalDiscounts(), 0.01);
-        assertEquals(totalPriceAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalPriceAfterDiscount, r.getTotalPrice(), 0.01);
 
         assertEquals(couponBeforeCheckout, customerCopy.getUnusedCouponsCount());
     }
@@ -207,9 +207,9 @@ public class CouponsTest extends BaseSupermarketTest{
         assertEquals(4.5, item.getTotalPrice(), 0.01);
         assertEquals(3.0, item.getQuantity(), 0.01);
 
-        assertEquals(4.5, r.getTotalPrice(), 0.01);
+        assertEquals(4.5, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(0.0, r.getTotalDiscounts(), 0.01);
-        assertEquals(4.5, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(4.5, r.getTotalPrice(), 0.01);
 
         // coupon exists but is expired so still unused
         assertEquals(1, expiredCustomer.getUnusedCouponsCount());

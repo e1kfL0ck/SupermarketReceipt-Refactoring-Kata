@@ -16,6 +16,6 @@ class BundleOfferTest extends BaseSupermarketTest {
         Receipt r = counter.checkout(customer);
 
         assertEquals(0.4, r.getTotalDiscounts(), 0.01);
-        assertEquals(3.6, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(3.6, r.getTotalPrice(), 0.01);
     }
 }

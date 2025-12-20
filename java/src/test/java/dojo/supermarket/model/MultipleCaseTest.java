@@ -211,8 +211,8 @@ public class MultipleCaseTest extends BaseSupermarketTest {
         assertEquals(product("steak"), item.getProduct());
         assertEquals(steakTotal, item.getTotalPrice(), 0.01);
 
-        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(totalDiscount, r.getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPrice(), 0.01);
     }
 }

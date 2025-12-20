@@ -25,9 +25,9 @@ public class DefaultTest extends BaseSupermarketTest{
 
         double total = 2*2 + 1.2*1.5;
 
-        assertEquals(total, r.getTotalPrice(), 0.01);
+        assertEquals(total, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(0.0, r.getTotalDiscounts(), 0.01);
-        assertEquals(total, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(total, r.getTotalPrice(), 0.01);
     }
 
 }

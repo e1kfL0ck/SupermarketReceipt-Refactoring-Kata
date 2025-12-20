@@ -18,9 +18,9 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         double discount = 1.20;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(discount, r.getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPrice(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
                 .filter(i -> i.getProduct().equals(product("soda")))
@@ -43,9 +43,9 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         double discount = 1.20;
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(discount, r.getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPrice(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
                 .filter(i -> i.getProduct().equals(product("soda")))
@@ -68,9 +68,9 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
         double discount = 2 * 1.20; // two full 3-for-2 groups
         double totalAfterDiscount = totalBeforeDiscount - discount;
 
-        assertEquals(totalBeforeDiscount, r.getTotalPrice(), 0.01);
+        assertEquals(totalBeforeDiscount, r.getTotalPriceBeforeDiscount(), 0.01);
         assertEquals(discount, r.getTotalDiscounts(), 0.01);
-        assertEquals(totalAfterDiscount, r.getTotalPriceAfterDiscount(), 0.01);
+        assertEquals(totalAfterDiscount, r.getTotalPrice(), 0.01);
 
         ReceiptItem receiptItem = cart.items().stream()
                 .filter(i -> i.getProduct().equals(product("soda")))
