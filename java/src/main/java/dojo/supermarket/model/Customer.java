@@ -8,6 +8,7 @@ public class Customer {
 
     private int id;
     private Map<Product, Coupon> coupons;
+    private int creditPoints;
 
     public Customer(int id, Map<Product, Coupon> coupons) {
         this.id = id;
@@ -19,7 +20,8 @@ public class Customer {
         for (var e : other.coupons.entrySet()) {
             this.coupons.put(e.getKey(), new Coupon(e.getValue()));
         }
-
+        // Copy the credit points value; primitives like int are always copied by value in Java
+        this.creditPoints = other.creditPoints;
     }
 
     public Coupon getCouponValidity(Product product, LocalDate checkoutDate) {
@@ -30,4 +32,25 @@ public class Customer {
     public int getUnusedCouponsCount() {
         return (int) coupons.values().stream().filter(coupon -> !coupon.isUsed()).count();
     }
+
+    public int getCreditPoints() { return creditPoints; }
+
+    /**
+     * Adds credit points to the customer's account.
+     * Used for tests.
+     */
+    public void addCreditPoints(int points) {
+        if (points > 0) creditPoints += points;
+    }
+
+    public int useCreditPoints(int pointsRequested) {
+        int used = Math.min(pointsRequested, creditPoints);
+        creditPoints -= used;
+        return used;
+    }
+
+    public void addCoupon(Coupon coupon) {
+        this.coupons.put(coupon.getProduct(), coupon);
+    }
+
 }

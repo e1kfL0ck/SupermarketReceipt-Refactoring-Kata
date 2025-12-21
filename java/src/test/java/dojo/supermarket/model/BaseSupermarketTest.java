@@ -1,6 +1,7 @@
 package dojo.supermarket.model;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,34 +30,6 @@ public abstract class BaseSupermarketTest {
         P.put("bread",      new Product("bread", ProductUnit.EACH, 1.50));
         P.put("grapes",     new Product("grapes", ProductUnit.KILO, 3.00));
         P.put("chocolate",  new Product("chocolate", ProductUnit.EACH, 2.00));
-
-        Map<Product, Coupon> coupons = new HashMap<>();
-
-        coupons.put(
-                product("bread"),
-                new Coupon(
-                        product("bread"),
-                        java.time.LocalDate.now().minusDays(1),
-                        java.time.LocalDate.now().plusDays(10),
-                        2,
-                        1,
-                        0.5
-                )
-        );
-
-        coupons.put(
-                product("soda"),
-                new Coupon(
-                        product("soda"),
-                        java.time.LocalDate.now().minusDays(1),
-                        java.time.LocalDate.now().plusDays(10),
-                        1,
-                        1,
-                        0.5
-                )
-        );
-
-        customer = new  Customer(1, coupons);
 
         offersMap.put(
                 product("toothpaste"),
@@ -157,5 +130,36 @@ public abstract class BaseSupermarketTest {
 
     protected static Product product(String key) {
         return P.get(key);
+    }
+
+    @BeforeEach
+    void initCustomer() {
+        Map<Product, Coupon> coupons = new HashMap<>();
+
+        coupons.put(
+                product("bread"),
+                new Coupon(
+                        product("bread"),
+                        java.time.LocalDate.now().minusDays(1),
+                        java.time.LocalDate.now().plusDays(10),
+                        2,
+                        1,
+                        0.5
+                )
+        );
+
+        coupons.put(
+                product("soda"),
+                new Coupon(
+                        product("soda"),
+                        java.time.LocalDate.now().minusDays(1),
+                        java.time.LocalDate.now().plusDays(10),
+                        1,
+                        1,
+                        0.5
+                )
+        );
+
+        customer = new Customer(1, coupons);
     }
 }
