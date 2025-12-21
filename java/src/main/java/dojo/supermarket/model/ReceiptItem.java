@@ -4,9 +4,9 @@ public class ReceiptItem {
 
     private final Product product;
     private final double totalPrice;
-    private final Double quantity;
+    private final double quantity;
 
-    ReceiptItem(Product p, Double quantity) {
+    ReceiptItem(Product p, double quantity) {
         product = p;
         if (p.getUnit() == ProductUnit.EACH && quantity % 1 != 0) {
             throw new IllegalArgumentException("Qty for unit EACH must be an integer value.");
@@ -23,12 +23,12 @@ public class ReceiptItem {
         return product;
     }
 
-    public Double getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public Integer getQuantityAsInt() {
-        return quantity.intValue();
+    public int getQuantityAsInt() {
+        return (int) quantity;
     }
 
     public double getTotalPrice() {
