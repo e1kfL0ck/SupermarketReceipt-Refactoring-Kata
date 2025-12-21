@@ -57,4 +57,8 @@ public class Receipt {
     public List<Discount> getDiscounts() {
         return discounts;
     }
+
+    public List<ReceiptItem> getItems() {
+        return items;
+    }
 }
