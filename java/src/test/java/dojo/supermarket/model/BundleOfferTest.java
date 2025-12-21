@@ -34,6 +34,9 @@ class BundleOfferTest extends BaseSupermarketTest {
 
         Receipt r = counter.checkout(customer);
 
+        System.out.println(ReceiptDisplay.printReceipt(r));
+        ReceiptDisplay.generateReceiptHTML(r);
+
         double bundle1Price = (1.50 + 0.50)*3; // 2 bundles of toothpaste + toothbrush
         double bundle2Price = (1.37 + 4.00 + 1.50)*2; // 2 bundles of milk + ham + bread
 
