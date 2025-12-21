@@ -29,12 +29,4 @@ public final class LoyaltyProgram {
     public int eurosToPoints(double euros) {
         return (int) Math.round(euros * POINTS_PER_EURO);
     }
-
-    /**
-     * Maximum points that can be applied without exceeding the amount.
-     * Useful for split payment (points + cash).
-     */
-    public int maxUsablePoints(double euros) {
-        return (int) Math.floor(euros * POINTS_PER_EURO);
-    }
 }

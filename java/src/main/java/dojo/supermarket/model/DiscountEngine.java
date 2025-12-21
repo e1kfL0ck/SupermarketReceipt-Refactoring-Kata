@@ -27,6 +27,13 @@ public class DiscountEngine {
                 .forEach(kiloOfferCatalog::add);
     }
 
+    /**
+     * Applies all applicable discounts to the shopping cart for the given customer,
+     * updating the receipt with the calculated discounts.
+     * @param cart
+     * @param customer
+     * @param receipt
+     */
     public void applyAll(ShoppingCart cart, Customer customer, Receipt receipt) {
         this.cart = cart;
         this.receipt = receipt;
@@ -45,6 +52,9 @@ public class DiscountEngine {
         }
     }
 
+    /**
+     * Initializes the remaining quantities map for products sold by EACH unit.
+     */
     private void initRemainingEach() {
         for (ReceiptItem item : cart.items()) {
             if (item.getProduct().getUnit() == ProductUnit.EACH) {
@@ -53,6 +63,11 @@ public class DiscountEngine {
         }
     }
 
+    /**
+     * Applies a bundle offer to the cart, consuming the products in the bundle
+     * and adding the corresponding discount to the receipt.
+     * @param offer The bundle offer to apply.
+     */
     private void applyBundleOfferConsuming(Offer offer) {
         List<Product> bundle = offer.getProducts();
 
@@ -75,10 +90,20 @@ public class DiscountEngine {
         }
     }
 
+    /**
+     * Checks if the cart contains all products in the given list.
+     * @param products The list of products to check.
+     * @return true if all products are in the cart, false otherwise.
+     */
     private boolean containsAll(List<Product> products) {
         return products.stream().allMatch(cart::contains);
     }
 
+    /**
+     * Calculates how many times a bundle can be used based on the remaining quantities.
+     * @param bundle The list of products in the bundle.
+     * @return The number of times the bundle can be used.
+     */
     private int calculateBundleUses(List<Product> bundle) {
         if (bundle.stream().anyMatch(p -> p.getUnit() != ProductUnit.EACH)) return 0;
 
@@ -89,6 +114,12 @@ public class DiscountEngine {
         return uses;
     }
 
+    /**
+     * Applies the best available single offer (either an offer or a coupon) for a product,
+     * consuming the appropriate quantities and updating the receipt with the discount.
+     * @param product The product to apply the offer/coupon to.
+     * @param customer The customer for coupon validation.
+     */
     private void applySingleOfferBestOf(Product product, Customer customer) {
         LocalDate checkoutDate = LocalDate.now();
         Offer offer = offersMap.get(product);
@@ -103,7 +134,7 @@ public class DiscountEngine {
             double offerAmount = offerDiscount == null ? 0.0 : offerDiscount.getDiscountAmount();
             int offerConsumes = offerConsumesUnits(offer, remainingUnits);
 
-            // si l’offre ne consomme rien (ex: remaining < seuil), elle n’est pas applicable
+            // if the offer consumes nothing (e.g., remaining < threshold), it is not applicable
             if (offerConsumes <= 0) {
                 offerAmount = 0.0;
                 offerDiscount = null;
@@ -120,7 +151,6 @@ public class DiscountEngine {
                 couponDiscount = null;
             }
 
-            // Aucun discount applicable
             if (offerAmount <= 0.0 && couponAmount <= 0.0) return;
 
             if (couponAmount > offerAmount) {
@@ -152,7 +182,6 @@ public class DiscountEngine {
             case THREE_FOR_TWO -> (remainingUnits / 3) * 3;
             case TWO_FOR_AMOUNT -> (remainingUnits / 2) * 2;
             case FIVE_FOR_AMOUNT -> (remainingUnits / 5) * 5;
-
             case TEN_PERCENT_DISCOUNT -> remainingUnits;
 
             default -> 0;
@@ -189,6 +218,13 @@ public class DiscountEngine {
         if (left <= 0) remaining.remove(p); else remaining.put(p, left);
     }
 
+    /**
+     * Computes the discount provided by a coupon for a product, applied only once.
+     * @param coupon The coupon to apply.
+     * @param product The product to which the coupon applies.
+     * @param remainingUnits The number of remaining units of the product.
+     * @return The computed discount, or null if the coupon is not applicable.
+     */
     private Discount computeCouponDiscountOnce(Coupon coupon, Product product, Integer remainingUnits) {
         if (coupon == null) return null;
         int triggerQty = coupon.getTriggerQuantity();

@@ -8,6 +8,12 @@ public class ShoppingCart {
 
     ShoppingCart() {}
 
+    /**
+     * Adds an item to the shopping cart. If the item already exists, it updates the quantity.
+     *
+     * @param product  The product to add.
+     * @param quantity The quantity of the product.
+     */
     void addItemToCart(Product product, double quantity) {
         items.merge(
                 product,
