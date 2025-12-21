@@ -160,8 +160,8 @@ Rules implemented:
 - Checkout flow updated:
 1. Compute total after discounts
 2. Use available loyalty points
-3. Pay remaining amount in cash
-4. Earn new points from cash paid
+3. Pay remaining amount 
+4. Earn new points from what's paid
 
 ### Tests added
 - After checkout, customer points increase
@@ -170,17 +170,3 @@ Rules implemented:
 - Discounts + loyalty → points applied after discounts
 
 ---
-
-## 6. Conclusion
-
-The work followed the expected process:
-1. **Tests first** to secure behavior
-2. **Refactoring** guided by code smells
-3. **New features** implemented incrementally with dedicated tests
-
-The resulting codebase:
-- Has clearer responsibilities
-- Is easier to extend with new pricing rules
-- Is protected by behavior-driven tests
-- Remains faithful to the original kata intent
-
