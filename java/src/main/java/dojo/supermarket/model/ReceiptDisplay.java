@@ -18,7 +18,7 @@ public final class ReceiptDisplay {
      * Use e.g. CheckoutCounter.getReceipt() and ShoppingCart.items() when calling.
      */
     public static String printReceipt(Receipt receipt) {
-        List<ReceiptItem> items = receipt.getItems();
+        List<ReceiptItem> items = (receipt != null) ? receipt.getItems() : null;
 
         StringBuilder result = new StringBuilder();
         String nl = System.lineSeparator();
@@ -78,7 +78,7 @@ public final class ReceiptDisplay {
      * Use e.g. CheckoutCounter.getReceipt() and ShoppingCart.items() when calling.
      */
     public static void generateReceiptHTML(Receipt receipt) {
-        List<ReceiptItem> items = receipt.getItems();
+        List<ReceiptItem> items = (receipt != null) ? receipt.getItems() : null;
 
         StringBuilder html = new StringBuilder();
         html.append("<table border=\"1\" cellspacing=\"0\" cellpadding=\"4\">");

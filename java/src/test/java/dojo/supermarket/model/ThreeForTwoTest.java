@@ -96,7 +96,6 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
                 1, 1, 0.5
         );
 
-        // Customer stub: retourne le coupon pour soda
         Customer customerWithCoupon = new Customer(customer);
         customerWithCoupon.addCoupon(coupon);
 
@@ -109,7 +108,6 @@ public class ThreeForTwoTest extends BaseSupermarketTest {
 
         assertEquals(totalBefore, r.getTotalPriceBeforeDiscount(), 0.01);
 
-        // Ce test échoue avec ton code actuel: r.getTotalDiscounts() vaut 1.20 au lieu de 1.80
         assertEquals(expectedDiscount, r.getTotalDiscounts(), 0.01);
         assertEquals(expectedTotal, r.getTotalPrice(), 0.01);
     }

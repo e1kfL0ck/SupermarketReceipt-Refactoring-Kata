@@ -7,7 +7,7 @@ public final class LoyaltyProgram {
     private static final int POINTS_PER_EURO = 100;
 
     /**
-     * Earn points from euros paid. (10% of euros paid, rounded down).
+     * Earn loyalty points from euros paid: 10 points per euro spent, rounded down.
      * Example: 26.23€ -> 262 points
      */
     public int earnPoints(double eurosPaid) {
