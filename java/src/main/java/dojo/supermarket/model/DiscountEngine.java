@@ -89,7 +89,6 @@ public class DiscountEngine {
         return uses;
     }
 
-    // TODO: this method needs refactoring to reduce its complexity
     private void applySingleOfferBestOf(Product product, Customer customer) {
         LocalDate checkoutDate = LocalDate.now();
         Offer offer = offersMap.get(product);
